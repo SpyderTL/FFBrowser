@@ -14,9 +14,10 @@ namespace FFBrowser
 		[STAThread]
 		static void Main()
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+			NesFile.Data = Properties.Resources.ROM;
+			Rom.Data = NesFile.ReadData();
+
+			RomBrowser.ShowForm();
 		}
 	}
 }
