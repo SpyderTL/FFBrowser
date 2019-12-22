@@ -34,12 +34,13 @@ namespace FFBrowser
 
 			root.Nodes.Add(Node("Header", properties));
 
+			// Load World
+			root.Nodes.Add(Folder("World", new WorldNode()));
+
 			// Load Maps
 			RomMap.LoadMaps();
 
 			var maps = Node("Maps", null);
-
-			maps.Nodes.Add(Folder("World", new WorldNode()));
 
 			for (int map = 0; map < Game.Maps.Length; map++)
 			{
