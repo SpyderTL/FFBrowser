@@ -17,5 +17,11 @@ namespace FFBrowser
 
 		internal static int ObjectBank = 0;
 		internal static int ObjectAddress = 0xB400;
+
+		internal static int AttributeBank = 0;
+		internal static int AttributeAddress = 0x8400;
+
+		internal static int PropertyBank = 0;
+		internal static int PropertyAddress = 0x8800;
 	}
 }
