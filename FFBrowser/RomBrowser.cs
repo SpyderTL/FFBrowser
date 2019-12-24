@@ -126,10 +126,21 @@ namespace FFBrowser
 
 				for (var obj = 0; obj < Map.Objects.Length; obj++)
 				{
-					objects.Nodes.Add(Node("(" + Map.Objects[obj].X.ToString() + ", " + Map.Objects[obj].Y + ") " + Map.Objects[obj].Type, new ObjectNode { X = Map.Objects[obj].X, Y = Map.Objects[obj].Y, Type = Map.Objects[obj].Type, Flags = Map.Objects[obj].Flags }));
+					objects.Nodes.Add(Node("(" + Map.Objects[obj].X.ToString() + ", " + Map.Objects[obj].Y + ") " + Map.Objects[obj].Type, new ObjectNode { Object = obj, X = Map.Objects[obj].X, Y = Map.Objects[obj].Y, Type = Map.Objects[obj].Type, Flags = Map.Objects[obj].Flags }));
 				}
 
 				e.Node.Nodes.Add(objects);
+
+				RomProperties.LoadMap(((MapNode)e.Node.Tag).Map);
+
+				var tiles = Node("Tiles", null);
+
+				for (var property = 0; property < Map.Tiles.Length; property++)
+				{
+					tiles.Nodes.Add(Node(property.ToString("X2") + " " + (Map.Tiles[property].Move ? "Open" : "Blocked"), new PropertyNode { Tile = property, Move = Map.Tiles[property].Move, Battle = Map.Tiles[property].Battle, Type = Map.Tiles[property].TileType, Teleport = Map.Tiles[property].TeleportType }));
+				}
+
+				e.Node.Nodes.Add(tiles);
 			}
 		}
 
@@ -153,10 +164,20 @@ namespace FFBrowser
 
 		private class ObjectNode
 		{
+			public int Object { get; set; }
 			public int X { get; set; }
 			public int Y { get; set; }
 			public int Type { get; set; }
 			public int Flags { get; set; }
+		}
+
+		private class PropertyNode
+		{
+			public int Tile { get; set; }
+			public bool Move { get; set; }
+			public bool Battle { get; set; }
+			public Map.TileType Type { get; set; }
+			public Map.TeleportType Teleport { get; set; }
 		}
 	}
 }

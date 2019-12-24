@@ -4,7 +4,7 @@
 	{
 		public static Segment[] Segments;
 		public static Object[] Objects = new Object[16];
-		public static Property[] Properties = new Property[256];
+		public static Tile[] Tiles = new Tile[128];
 
 		public struct Segment
 		{
@@ -20,14 +20,41 @@
 			public int Flags;
 		}
 
-		public struct Property
+		public struct Tile
 		{
-			public int TileType;
+			public TileType TileType;
 			public bool Move;
 			public bool Battle;
-			public int TeleportType;
-			public bool Teleport;
+			public TeleportType TeleportType;
 			public int Value;					// Teleport ID, Chest ID, Battle Type
+		}
+
+		public enum TileType
+		{
+			Normal,
+			Door,
+			Locked,
+			CloseRoom,
+			Treasure,
+			Battle,
+			Damage,
+			Crown,
+			Cube,
+			FourOrbs,
+			UseRod,
+			UseLute,
+			EarthOrb,
+			FireOrb,
+			WaterOrb,
+			AirOrb
+		}
+
+		public enum TeleportType
+		{
+			None,
+			Warp,
+			Normal,
+			Exit
 		}
 	}
 }

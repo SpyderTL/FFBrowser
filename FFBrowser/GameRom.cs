@@ -21,7 +21,14 @@ namespace FFBrowser
 		internal static int AttributeBank = 0;
 		internal static int AttributeAddress = 0x8400;
 
-		internal static int PropertyBank = 0;
-		internal static int PropertyAddress = 0x8800;
+		internal static int WorldTileBank = 0;
+		internal static int WorldTileAddress = 0x8000;
+		// 2 bytes per tiles
+		// 128 tiles
+		
+		internal static int MapTileBank = 0;
+		internal static int MapTileAddress = 0x8800;
+		// 2 bytes per tiles
+		// 128 tiles
 	}
 }
