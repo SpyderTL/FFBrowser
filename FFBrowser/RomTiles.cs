@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FFBrowser
 {
-	internal static class RomProperties
+	internal static class RomTiles
 	{
 		internal static void LoadMap(int map)
 		{
@@ -25,7 +25,7 @@ namespace FFBrowser
 
 					Map.Tiles[property] = new Map.Tile
 					{
-						Move = (value & 0x01) == 0x00,
+						Blocked = (value & 0x01) == 0x01,
 						TileType = (Map.TileType)((value >> 1) & 0x0f),
 						TeleportType = (Map.TeleportType)(value >> 6),
 						Battle = (value & 0x20) == 0x20,

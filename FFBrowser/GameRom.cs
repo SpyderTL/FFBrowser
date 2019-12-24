@@ -30,5 +30,11 @@ namespace FFBrowser
 		internal static int MapTileAddress = 0x8800;
 		// 2 bytes per tiles
 		// 128 tiles
+
+		internal static int PortalBank = 0;
+		internal static int PortalXAddress = 0xAD00;
+		internal static int PortalYAddress = 0xAD40;
+		internal static int PortalMapAddress = 0xAD80;
+		internal static int PortalCount = 0x40;
 	}
 }

@@ -9,7 +9,7 @@ namespace FFBrowser
 {
 	internal static class RomObjects
 	{
-		internal static void LoadObjects(int map)
+		internal static void Load(int map)
 		{
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))

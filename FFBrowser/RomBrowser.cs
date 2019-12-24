@@ -51,6 +51,20 @@ namespace FFBrowser
 
 			root.Nodes.Add(maps);
 
+			// Load Portals
+			RomPortals.Load();
+
+			var portals = Node("Portals", null);
+
+			for (int portal = 0; portal < Game.Portals.Length; portal++)
+			{
+				var node = Folder(portal.ToString("X2") + " " + Game.Maps[Game.Portals[portal].Map] + " (" + Game.Portals[portal].X + ", " + Game.Portals[portal].Y + ")", new PortalNode { Portal = portal, Map = Game.Portals[portal].Map, X = Game.Portals[portal].X, Y = Game.Portals[portal].Y });
+
+				portals.Nodes.Add(node);
+			}
+
+			root.Nodes.Add(portals);
+
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
@@ -120,7 +134,7 @@ namespace FFBrowser
 
 				e.Node.Nodes.Add(segments);
 
-				RomObjects.LoadObjects(((MapNode)e.Node.Tag).Map);
+				RomObjects.Load(((MapNode)e.Node.Tag).Map);
 
 				var objects = Node("Objects", null);
 
@@ -131,13 +145,15 @@ namespace FFBrowser
 
 				e.Node.Nodes.Add(objects);
 
-				RomProperties.LoadMap(((MapNode)e.Node.Tag).Map);
+				RomTiles.LoadMap(((MapNode)e.Node.Tag).Map);
 
 				var tiles = Node("Tiles", null);
 
 				for (var property = 0; property < Map.Tiles.Length; property++)
 				{
-					tiles.Nodes.Add(Node(property.ToString("X2") + " " + (Map.Tiles[property].Move ? "Open" : "Blocked"), new PropertyNode { Tile = property, Move = Map.Tiles[property].Move, Battle = Map.Tiles[property].Battle, Type = Map.Tiles[property].TileType, Teleport = Map.Tiles[property].TeleportType }));
+					var tile = Map.Tiles[property];
+
+					tiles.Nodes.Add(Node(property.ToString("X2") + " " + (tile.Blocked ? "Blocked" : "Open"), new PropertyNode { Tile = property, Blocked = tile.Blocked, Battle = tile.Battle, Type = tile.TileType, Teleport = tile.TeleportType, Value = tile.Value }));
 				}
 
 				e.Node.Nodes.Add(tiles);
@@ -174,10 +190,19 @@ namespace FFBrowser
 		private class PropertyNode
 		{
 			public int Tile { get; set; }
-			public bool Move { get; set; }
+			public bool Blocked { get; set; }
 			public bool Battle { get; set; }
 			public Map.TileType Type { get; set; }
 			public Map.TeleportType Teleport { get; set; }
+			public int Value { get; set; }
+		}
+
+		private class PortalNode
+		{
+			public int Portal { get; set; }
+			public int Map { get; set; }
+			public int X { get; set; }
+			public int Y { get; set; }
 		}
 	}
 }

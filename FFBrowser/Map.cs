@@ -23,7 +23,7 @@
 		public struct Tile
 		{
 			public TileType TileType;
-			public bool Move;
+			public bool Blocked;
 			public bool Battle;
 			public TeleportType TeleportType;
 			public int Value;					// Teleport ID, Chest ID, Battle Type

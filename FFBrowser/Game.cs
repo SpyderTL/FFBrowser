@@ -72,5 +72,46 @@ namespace FFBrowser
 			"Temple of Fiends Chaos",
 			"Titan's Tunnel",
 		};
+
+		public enum Objects
+		{
+			Garland = 2,
+			Princess = 3,
+			Bikke = 4,
+			ElfPrince = 6,
+			Astos = 7,
+			Nerrick = 8,
+			Smith = 9,
+			Matoya = 10,
+			Unne = 11,
+			Vampire = 12,
+			Sarda = 13,
+			Bahamut = 14,
+			Subengineer = 16,
+			Princess2 = 18,
+			Fairy = 19,
+			Titan = 20,
+			RodPlate = 22,
+			LutePlate = 23,
+			Skywarrior = 58,
+			Skywarrior2 = 59,
+			Skywarrior3 = 60,
+			Skywarrior4 = 61,
+			Skywarrior5 = 62,
+			Hidden = 63,
+			Hidden2 = 64,
+			Hidden3 = 65,
+			Bat = 87,
+			BlackOrb = 202
+		}
+
+		public static Portal[] Portals = new Portal[64];
+
+		public struct Portal
+		{
+			public int Map;
+			public int X;
+			public int Y;
+		}
 	}
 }
