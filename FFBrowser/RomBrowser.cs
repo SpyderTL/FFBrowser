@@ -95,7 +95,7 @@ namespace FFBrowser
 
 					for (var segment = 0; segment < World.Rows[row].Length; segment++)
 					{
-						rowNode.Nodes.Add(Node(World.Rows[row][segment].Tile.ToString("X2") + " (x" + (World.Rows[row][segment].Repeat + 1) + ")", null));
+						rowNode.Nodes.Add(Node(World.Rows[row][segment].Tile.ToString("X2") + " (x" + World.Rows[row][segment].Count + ")", null));
 					}
 
 					rows.Nodes.Add(rowNode);
@@ -115,7 +115,7 @@ namespace FFBrowser
 
 				for (var segment = 0; segment < Map.Segments.Length; segment++)
 				{
-					segments.Nodes.Add(Node(Map.Segments[segment].Tile.ToString("X2") + " (x" + (Map.Segments[segment].Repeat + 1) + ")", null));
+					segments.Nodes.Add(Node(Map.Segments[segment].Tile.ToString("X2") + " (x" + Map.Segments[segment].Count + ")", null));
 				}
 
 				e.Node.Nodes.Add(segments);

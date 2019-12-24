@@ -30,19 +30,19 @@ namespace FFBrowser
 						if (value == 0xff)
 							break;
 
-						var repeat = 0;
+						var count = 1;
 
 						if ((value & 0x80) == 0x80)
 						{
 							value &= 0x7f;
 
-							repeat = reader.ReadByte();
+							count = reader.ReadByte();
 
-							if (repeat == 0)
-								repeat = 255;
+							if (count == 0)
+								count = 256;
 						}
 
-						segments.Add(new World.Segment { Tile = value, Repeat = repeat });
+						segments.Add(new World.Segment { Tile = value, Count = count });
 					}
 
 					return segments.ToArray();
@@ -88,19 +88,19 @@ namespace FFBrowser
 					if (value == 0xff)
 						break;
 
-					var repeat = 0;
+					var count = 1;
 
 					if ((value & 0x80) == 0x80)
 					{
 						value &= 0x7f;
 
-						repeat = reader.ReadByte();
+						count = reader.ReadByte();
 
-						if (repeat == 0)
-							repeat = 255;
+						if (count == 0)
+							count = 256;
 					}
 
-					segments.Add(new Map.Segment { Tile = value, Repeat = repeat });
+					segments.Add(new Map.Segment { Tile = value, Count = count });
 				}
 
 				Map.Segments = segments.ToArray();
