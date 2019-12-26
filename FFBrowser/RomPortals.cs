@@ -9,30 +9,30 @@ namespace FFBrowser
 {
 	internal static class RomPortals
 	{
-		internal static void Load()
+		internal static void LoadWorld()
 		{
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))
 			{
-				reader.Seek(GameRom.PortalBank, GameRom.PortalMapAddress);
+				reader.Seek(GameRom.WorldPortalBank, GameRom.WorldPortalMapAddress);
 
-				for (var portal = 0; portal < GameRom.PortalCount; portal++)
+				for (var portal = 0; portal < GameRom.WorldPortalCount; portal++)
 				{
-					Game.Portals[portal].Map = reader.ReadByte();
+					Game.WorldPortals[portal].Map = reader.ReadByte();
 				};
 
-				reader.Seek(GameRom.PortalBank, GameRom.PortalXAddress);
+				reader.Seek(GameRom.WorldPortalBank, GameRom.WorldPortalXAddress);
 
-				for (var portal = 0; portal < GameRom.PortalCount; portal++)
+				for (var portal = 0; portal < GameRom.WorldPortalCount; portal++)
 				{
-					Game.Portals[portal].X = reader.ReadByte();
+					Game.WorldPortals[portal].X = reader.ReadByte();
 				};
 
-				reader.Seek(GameRom.PortalBank, GameRom.PortalYAddress);
+				reader.Seek(GameRom.WorldPortalBank, GameRom.WorldPortalYAddress);
 
-				for (var portal = 0; portal < GameRom.PortalCount; portal++)
+				for (var portal = 0; portal < GameRom.WorldPortalCount; portal++)
 				{
-					Game.Portals[portal].Y = reader.ReadByte();
+					Game.WorldPortals[portal].Y = reader.ReadByte();
 				};
 			}
 		}

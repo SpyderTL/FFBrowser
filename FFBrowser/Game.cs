@@ -105,7 +105,7 @@ namespace FFBrowser
 			BlackOrb = 202
 		}
 
-		public static Portal[] Portals = new Portal[64];
+		public static Portal[] WorldPortals = new Portal[32];
 
 		public struct Portal
 		{

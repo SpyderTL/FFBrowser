@@ -9,6 +9,31 @@ namespace FFBrowser
 {
 	internal static class RomTiles
 	{
+		internal static void LoadWorld()
+		{
+			using (var stream = new MemoryStream(Rom.Data))
+			using (var reader = new RomReader(stream))
+			{
+				reader.Seek(GameRom.WorldTileBank, GameRom.WorldTileAddress);
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					var value = reader.ReadByte();
+					var value2 = reader.ReadByte();
+
+					World.Tiles[tile] = new World.Tile
+					{
+						Forest = (value & 0x10) == 0x10,
+						Dock = (value & 0x20) == 0x20,
+						Type = (World.TileType)(value >> 6),
+						Teleport = (value2 & 0x80) == 0x80,
+						Battle = (value2 & 0x40) == 0x40,
+						Value = value2 & 0x3f
+					};
+				}
+			}
+		}
+
 		internal static void LoadMap(int map)
 		{
 			using (var stream = new MemoryStream(Rom.Data))
@@ -18,7 +43,7 @@ namespace FFBrowser
 
 				reader.BaseStream.Seek(map * 256, SeekOrigin.Current);
 
-				for(var property = 0; property < Map.Tiles.Length; property++)
+				for (var property = 0; property < Map.Tiles.Length; property++)
 				{
 					var value = reader.ReadByte();
 					var value2 = reader.ReadByte();
@@ -31,7 +56,7 @@ namespace FFBrowser
 						Battle = (value & 0x20) == 0x20,
 						Value = value2
 					};
-				};
+				}
 			}
 		}
 	}

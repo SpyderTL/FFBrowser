@@ -51,20 +51,6 @@ namespace FFBrowser
 
 			root.Nodes.Add(maps);
 
-			// Load Portals
-			RomPortals.Load();
-
-			var portals = Node("Portals", null);
-
-			for (int portal = 0; portal < Game.Portals.Length; portal++)
-			{
-				var node = Folder(portal.ToString("X2") + " " + Game.Maps[Game.Portals[portal].Map] + " (" + Game.Portals[portal].X + ", " + Game.Portals[portal].Y + ")", new PortalNode { Portal = portal, Map = Game.Portals[portal].Map, X = Game.Portals[portal].X, Y = Game.Portals[portal].Y });
-
-				portals.Nodes.Add(node);
-			}
-
-			root.Nodes.Add(portals);
-
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
@@ -99,6 +85,7 @@ namespace FFBrowser
 			{
 				e.Node.Nodes.Clear();
 
+				// Load Rows
 				RomMap.LoadWorld();
 
 				var rows = Node("Rows", null);
@@ -116,6 +103,35 @@ namespace FFBrowser
 				}
 
 				e.Node.Nodes.Add(rows);
+
+				// Load Tiles
+				RomTiles.LoadWorld();
+
+				var tiles = Node("Tiles", null);
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					var tile2 = World.Tiles[tile];
+
+					tiles.Nodes.Add(Node(tile.ToString("X2") + " " + (tile2.Forest ? "Forest" : "Open"), new WorldTileNode { Tile = tile, Forest = tile2.Forest, Dock = tile2.Dock, Type = tile2.Type, Teleport = tile2.Teleport, Battle = tile2.Battle, Value = tile2.Value }));
+				}
+
+				e.Node.Nodes.Add(tiles);
+
+				// Load Portals
+				RomPortals.LoadWorld();
+
+				var portals = Node("Portals", null);
+
+				for (int portal = 0; portal < Game.WorldPortals.Length; portal++)
+				{
+					var node = Node(portal.ToString("X2") + " " + Game.Maps[Game.WorldPortals[portal].Map] + " (" + Game.WorldPortals[portal].X + ", " + Game.WorldPortals[portal].Y + ")", new PortalNode { Portal = portal, Map = Game.WorldPortals[portal].Map, X = Game.WorldPortals[portal].X, Y = Game.WorldPortals[portal].Y });
+
+					portals.Nodes.Add(node);
+				}
+
+				e.Node.Nodes.Add(portals);
+
 			}
 			else if (e.Node.Tag is MapNode)
 			{
@@ -153,7 +169,7 @@ namespace FFBrowser
 				{
 					var tile = Map.Tiles[property];
 
-					tiles.Nodes.Add(Node(property.ToString("X2") + " " + (tile.Blocked ? "Blocked" : "Open"), new PropertyNode { Tile = property, Blocked = tile.Blocked, Battle = tile.Battle, Type = tile.TileType, Teleport = tile.TeleportType, Value = tile.Value }));
+					tiles.Nodes.Add(Node(property.ToString("X2") + " " + (tile.Blocked ? "Blocked" : "Open"), new MapTileNode { Tile = property, Blocked = tile.Blocked, Battle = tile.Battle, Type = tile.TileType, Teleport = tile.TeleportType, Value = tile.Value }));
 				}
 
 				e.Node.Nodes.Add(tiles);
@@ -187,13 +203,24 @@ namespace FFBrowser
 			public int Flags { get; set; }
 		}
 
-		private class PropertyNode
+		private class MapTileNode
 		{
 			public int Tile { get; set; }
 			public bool Blocked { get; set; }
 			public bool Battle { get; set; }
 			public Map.TileType Type { get; set; }
 			public Map.TeleportType Teleport { get; set; }
+			public int Value { get; set; }
+		}
+
+		private class WorldTileNode
+		{
+			public int Tile { get; set; }
+			public bool Dock { get; set; }
+			public bool Forest { get; set; }
+			public World.TileType Type { get; set; }
+			public bool Teleport { get; set; }
+			public bool Battle { get; set; }
 			public int Value { get; set; }
 		}
 
