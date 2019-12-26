@@ -11,6 +11,7 @@ namespace FFBrowser
 	{
 		internal static int[] MapBanks = new int[64];
 		internal static int[] MapAddresses = new int[64];
+		internal static int[] MapTilesets = new int[64];
 
 		internal static void LoadWorld()
 		{
@@ -68,6 +69,22 @@ namespace FFBrowser
 
 					MapAddresses[map] = address;
 					MapBanks[map] = bank;
+				}
+			}
+		}
+
+		internal static void LoadMapTilesets()
+		{
+			using (var stream = new MemoryStream(Rom.Data))
+			using (var reader = new RomReader(stream))
+			{
+				reader.Seek(GameRom.MapTilesetBank, GameRom.MapTilesetAddress);
+
+				for (int map = 0; map < MapTilesets.Length; map++)
+				{
+					var value = reader.ReadByte();
+
+					MapTilesets[map] = value;
 				}
 			}
 		}

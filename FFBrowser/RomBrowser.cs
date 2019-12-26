@@ -39,17 +39,30 @@ namespace FFBrowser
 
 			// Load Maps
 			RomMap.LoadMaps();
+			RomMap.LoadMapTilesets();
 
 			var maps = Node("Maps", null);
 
 			for (int map = 0; map < Game.Maps.Length; map++)
 			{
-				var node = Folder(Game.Maps[map], new MapNode { Map = map, Bank = RomMap.MapBanks[map], Address = RomMap.MapAddresses[map], Name = Game.Maps[map] });
+				var node = Folder(Game.Maps[map], new MapNode { Map = map, Bank = RomMap.MapBanks[map], Address = RomMap.MapAddresses[map], Name = Game.Maps[map], Tileset = RomMap.MapTilesets[map] });
 
 				maps.Nodes.Add(node);
 			}
 
 			root.Nodes.Add(maps);
+
+			// Load Tilesets
+			var tilesets = Node("Tilesets", null);
+
+			for (int tileset = 0; tileset < GameRom.TilesetCount; tileset++)
+			{
+				var node = Folder(tileset.ToString(), new TilesetNode { Tileset = tileset });
+
+				tilesets.Nodes.Add(node);
+			}
+
+			root.Nodes.Add(tilesets);
 
 			Form.TreeView.Nodes.Add(root);
 
@@ -133,10 +146,8 @@ namespace FFBrowser
 				e.Node.Nodes.Add(portals);
 
 			}
-			else if (e.Node.Tag is MapNode)
+			else if (e.Node.Tag is MapNode map)
 			{
-				var map = (MapNode)e.Node.Tag;
-
 				e.Node.Nodes.Clear();
 
 				RomMap.LoadMap(((MapNode)e.Node.Tag).Map);
@@ -160,22 +171,19 @@ namespace FFBrowser
 				}
 
 				e.Node.Nodes.Add(objects);
+			}
+			else if (e.Node.Tag is TilesetNode tileset)
+			{
+				e.Node.Nodes.Clear();
 
-				RomTiles.LoadMap(((MapNode)e.Node.Tag).Map);
+				RomTiles.Load(tileset.Tileset);
 
-				var tiles = Node("Tiles", null);
-
-				for (var property = 0; property < Map.Tiles.Length; property++)
+				for (var tile = 0; tile < Map.Tiles.Length; tile++)
 				{
-					var tile = Map.Tiles[property];
-
-					tiles.Nodes.Add(Node(property.ToString("X2") + " " + (tile.Blocked ? "Blocked" : "Open"), new MapTileNode { Tile = property, Blocked = tile.Blocked, Battle = tile.Battle, Type = tile.TileType, Teleport = tile.TeleportType, Value = tile.Value }));
+					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value }));
 				}
-
-				e.Node.Nodes.Add(tiles);
 			}
 		}
-
 		private static void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			Form.PropertyGrid.SelectedObject = e.Node.Tag;
@@ -188,6 +196,7 @@ namespace FFBrowser
 			public string Name { get; set; }
 			public int Bank { get; set; }
 			public int Address { get; set; }
+			public int Tileset { get; set; }
 		}
 
 		public class WorldNode
@@ -230,6 +239,11 @@ namespace FFBrowser
 			public int Map { get; set; }
 			public int X { get; set; }
 			public int Y { get; set; }
+		}
+
+		private class TilesetNode
+		{
+			public int Tileset { get; set; }
 		}
 	}
 }

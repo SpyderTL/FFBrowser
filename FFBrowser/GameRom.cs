@@ -38,9 +38,15 @@ namespace FFBrowser
 		internal static int WorldPortalCount = 0x20;
 
 		internal static int MapPortalBank = 0;
-		internal static int PortalXAddress = 0xAD00;
-		internal static int PortalYAddress = 0xAD40;
-		internal static int PortalMapAddress = 0xAD80;
-		internal static int PortalCount = 0x40;
+		internal static int MapPortalXAddress = 0xAD00;
+		internal static int MapPortalYAddress = 0xAD40;
+		internal static int MapPortalMapAddress = 0xAD80;
+		internal static int MapPortalCount = 0x40;
+
+		internal static int MapTilesetBank = 0;
+		internal static int MapTilesetAddress = 0xACC0;
+		internal static int MapTilesetCount = 0x40;
+
+		internal static int TilesetCount = 8;
 	}
 }

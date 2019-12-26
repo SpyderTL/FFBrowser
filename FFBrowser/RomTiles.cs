@@ -34,14 +34,14 @@ namespace FFBrowser
 			}
 		}
 
-		internal static void LoadMap(int map)
+		internal static void Load(int tileset)
 		{
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))
 			{
 				reader.Seek(GameRom.MapTileBank, GameRom.MapTileAddress);
 
-				reader.BaseStream.Seek(map * 256, SeekOrigin.Current);
+				reader.BaseStream.Seek(tileset * 256, SeekOrigin.Current);
 
 				for (var property = 0; property < Map.Tiles.Length; property++)
 				{
