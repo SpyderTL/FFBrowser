@@ -64,6 +64,20 @@ namespace FFBrowser
 
 			root.Nodes.Add(tilesets);
 
+			// Load Portals
+			RomPortals.LoadMapPortals();
+
+			var portals = Node("Portals", null);
+
+			for (int portal = 0; portal < Map.Portals.Length; portal++)
+			{
+				var node = Node(portal.ToString("X2") + " " + Game.Maps[Map.Portals[portal].Map] + " (" + Map.Portals[portal].X + ", " + Map.Portals[portal].Y + ")", new PortalNode { Portal = portal, Map = Map.Portals[portal].Map, X = Map.Portals[portal].X, Y = Map.Portals[portal].Y });
+
+				portals.Nodes.Add(node);
+			}
+
+			root.Nodes.Add(portals);
+
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
@@ -132,13 +146,13 @@ namespace FFBrowser
 				e.Node.Nodes.Add(tiles);
 
 				// Load Portals
-				RomPortals.LoadWorld();
+				RomPortals.LoadWorldPortals();
 
 				var portals = Node("Portals", null);
 
-				for (int portal = 0; portal < Game.WorldPortals.Length; portal++)
+				for (int portal = 0; portal < World.Portals.Length; portal++)
 				{
-					var node = Node(portal.ToString("X2") + " " + Game.Maps[Game.WorldPortals[portal].Map] + " (" + Game.WorldPortals[portal].X + ", " + Game.WorldPortals[portal].Y + ")", new PortalNode { Portal = portal, Map = Game.WorldPortals[portal].Map, X = Game.WorldPortals[portal].X, Y = Game.WorldPortals[portal].Y });
+					var node = Node(portal.ToString("X2") + " " + Game.Maps[World.Portals[portal].Map] + " (" + World.Portals[portal].X + ", " + World.Portals[portal].Y + ")", new PortalNode { Portal = portal, Map = World.Portals[portal].Map, X = World.Portals[portal].X, Y = World.Portals[portal].Y });
 
 					portals.Nodes.Add(node);
 				}
@@ -176,7 +190,7 @@ namespace FFBrowser
 			{
 				e.Node.Nodes.Clear();
 
-				RomTiles.Load(tileset.Tileset);
+				RomTiles.LoadTileset(tileset.Tileset);
 
 				for (var tile = 0; tile < Map.Tiles.Length; tile++)
 				{

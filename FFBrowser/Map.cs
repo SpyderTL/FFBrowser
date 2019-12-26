@@ -5,6 +5,7 @@
 		public static Segment[] Segments;
 		public static Object[] Objects = new Object[16];
 		public static Tile[] Tiles = new Tile[128];
+		public static Portal[] Portals = new Portal[64];
 
 		public struct Segment
 		{
@@ -26,7 +27,7 @@
 			public bool Blocked;
 			public bool Battle;
 			public TeleportType TeleportType;
-			public int Value;					// Teleport ID, Chest ID, Battle Type
+			public int Value;
 		}
 
 		public enum TileType
@@ -55,6 +56,13 @@
 			Warp,
 			Normal,
 			Exit
+		}
+
+		public struct Portal
+		{
+			public int Map;
+			public int X;
+			public int Y;
 		}
 	}
 }

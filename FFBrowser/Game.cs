@@ -104,14 +104,5 @@ namespace FFBrowser
 			Bat = 87,
 			BlackOrb = 202
 		}
-
-		public static Portal[] WorldPortals = new Portal[32];
-
-		public struct Portal
-		{
-			public int Map;
-			public int X;
-			public int Y;
-		}
 	}
 }

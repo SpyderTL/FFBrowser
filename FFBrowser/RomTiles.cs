@@ -34,7 +34,7 @@ namespace FFBrowser
 			}
 		}
 
-		internal static void Load(int tileset)
+		internal static void LoadTileset(int tileset)
 		{
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))

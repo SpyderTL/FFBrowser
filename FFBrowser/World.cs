@@ -4,6 +4,7 @@
 	{
 		public static Segment[][] Rows;
 		public static Tile[] Tiles = new Tile[128];
+		public static Portal[] Portals = new Portal[32];
 
 		public struct Segment
 		{
@@ -27,6 +28,13 @@
 			Chime,
 			Caravan,
 			Floater
+		}
+
+		public struct Portal
+		{
+			public int Map;
+			public int X;
+			public int Y;
 		}
 	}
 }
