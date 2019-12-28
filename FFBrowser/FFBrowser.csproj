@@ -52,8 +52,10 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RomDialogs.cs" />
     <Compile Include="RomPortals.cs" />
     <Compile Include="RomTiles.cs" />
+    <Compile Include="RomItems.cs" />
     <Compile Include="RomTreasure.cs" />
     <Compile Include="World.cs" />
     <Compile Include="NesFile.cs" />

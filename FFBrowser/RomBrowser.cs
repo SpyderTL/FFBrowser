@@ -102,6 +102,30 @@ namespace FFBrowser
 
 			root.Nodes.Add(treasures);
 
+			// Load Items
+			RomItems.Load();
+
+			var items = Node("Items", null);
+
+			for (int item = 0; item < GameRom.ItemCount; item++)
+			{
+				items.Nodes.Add(Node(item.ToString("X2") + ": " + Game.Items[item], new { Item = item, Name = Game.Items[item] }));
+			}
+
+			root.Nodes.Add(items);
+
+			// Load Dialogs
+			RomDialogs.Load();
+
+			var dialogs = Node("Dialogs", null);
+
+			for (int dialog = 0; dialog < GameRom.DialogCount; dialog++)
+			{
+				dialogs.Nodes.Add(Node(dialog.ToString("X2") + ": " + Game.Dialogs[dialog], new { Dialog = dialog, Name = Game.Dialogs[dialog] }));
+			}
+
+			root.Nodes.Add(dialogs);
+
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;

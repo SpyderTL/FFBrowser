@@ -104,5 +104,8 @@ namespace FFBrowser
 			Bat = 87,
 			BlackOrb = 202
 		}
+
+		public static string[] Items = new string[256];
+		public static string[] Dialogs = new string[256];
 	}
 }

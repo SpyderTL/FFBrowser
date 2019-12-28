@@ -56,5 +56,16 @@ namespace FFBrowser
 		internal static int TreasureBank = 0;
 		internal static int TreasureAddress = 0xB100;
 		internal static int TreasureCount = 0x100;
+
+		internal static int DialogBank = 0x0A;
+		internal static int DialogAddress = 0x8000;
+		internal static int DialogCount = 0x100;
+
+		internal static int ItemBank = 0x0A;
+		internal static int ItemAddress = 0xB700;
+		internal static int ItemCount = 0x100;
+
+		internal static int PriceBank = 0x0D;
+		internal static int PriceAddress = 0xBC00;
 	}
 }
