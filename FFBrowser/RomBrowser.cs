@@ -97,7 +97,7 @@ namespace FFBrowser
 
 			for (int treasure = 0; treasure < GameRom.TreasureCount; treasure++)
 			{
-				treasures.Nodes.Add(Node(treasure.ToString("X2"), new { Item = Map.Treasure[treasure] }));
+				treasures.Nodes.Add(Node(treasure.ToString("X2") + ": " + Map.Treasure[treasure].ToString("X2"), new { Item = Map.Treasure[treasure] }));
 			}
 
 			root.Nodes.Add(treasures);

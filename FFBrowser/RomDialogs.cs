@@ -41,13 +41,13 @@ namespace FFBrowser
 					break;
 
 				if (character == 0x01)
-					builder.Append("\\n");
+					builder.Append("[Next Line]");
 				else if (character == 0x02)
 					builder.Append("[Item Name]");
 				else if (character == 0x03)
 					builder.Append("[Character Name]");
 				else if (character == 0x05)
-					builder.Append("\\r\\n");
+					builder.Append("[New Line]");
 				else
 					builder.Append(Characters[character]);
 			}
@@ -277,7 +277,7 @@ namespace FFBrowser
 			".",
 			"[0xc1]",
 			"-",
-			"[0xc3]",
+			"..",
 			"!",
 			"?",
 			"[0xc6]",
@@ -296,21 +296,21 @@ namespace FFBrowser
 			"[0xd1]",
 			"[0xd2]",
 			"[0xd3]",
-			"[0xd4]",
-			"[0xd5]",
-			"[0xd6]",
-			"[0xd7]",
-			"[0xd8]",
-			"[0xd9]",
-			"[0xda]",
-			"[0xdb]",
-			"[0xdc]",
-			"[0xdd]",
-			"[0xde]",
-			"[0xdf]",
+			"[Sword]",
+			"[Hammer]",
+			"[Dagger]",
+			"[Axe]",
+			"[Staff]",
+			"[Nunchuck]",
+			"[Armor]",
+			"[Shield]",
+			"[Helmet]",
+			"[Gauntlet]",
+			"[Bracelet]",
+			"[Robe]",
 			// 0xe0
 			"%",
-			"[0xe1]",
+			"[Potion]",
 			"[0xe2]",
 			"[0xe3]",
 			"[0xe4]",
