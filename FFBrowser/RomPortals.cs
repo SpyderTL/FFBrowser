@@ -62,6 +62,20 @@ namespace FFBrowser
 				{
 					Map.Portals[portal].Y = reader.ReadByte();
 				};
+
+				reader.Seek(GameRom.MapPortalBank, GameRom.MapExitXAddress);
+
+				for (var exit = 0; exit < GameRom.MapExitCount; exit++)
+				{
+					Map.Exits[exit].X = reader.ReadByte();
+				};
+
+				reader.Seek(GameRom.MapPortalBank, GameRom.MapExitYAddress);
+
+				for (var exit = 0; exit < GameRom.MapExitCount; exit++)
+				{
+					Map.Exits[exit].Y = reader.ReadByte();
+				};
 			}
 		}
 	}

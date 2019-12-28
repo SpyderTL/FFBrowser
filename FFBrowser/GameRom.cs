@@ -31,6 +31,8 @@ namespace FFBrowser
 		// 2 bytes per tiles
 		// 128 tiles
 
+		internal static int TilesetCount = 8;
+
 		internal static int WorldPortalBank = 0;
 		internal static int WorldPortalXAddress = 0xAC00;
 		internal static int WorldPortalYAddress = 0xAC20;
@@ -47,6 +49,12 @@ namespace FFBrowser
 		internal static int MapTilesetAddress = 0xACC0;
 		internal static int MapTilesetCount = 0x40;
 
-		internal static int TilesetCount = 8;
+		internal static int MapExitXAddress = 0xAC60;
+		internal static int MapExitYAddress = 0xAC70;
+		internal static int MapExitCount = 0x10;
+
+		internal static int TreasureBank = 0;
+		internal static int TreasureAddress = 0xB100;
+		internal static int TreasureCount = 0x100;
 	}
 }

@@ -6,6 +6,8 @@
 		public static Object[] Objects = new Object[16];
 		public static Tile[] Tiles = new Tile[128];
 		public static Portal[] Portals = new Portal[64];
+		public static Exit[] Exits = new Exit[16];
+		public static int[] Treasure = new int[256];
 
 		public struct Segment
 		{
@@ -61,6 +63,12 @@
 		public struct Portal
 		{
 			public int Map;
+			public int X;
+			public int Y;
+		}
+
+		public struct Exit
+		{
 			public int X;
 			public int Y;
 		}

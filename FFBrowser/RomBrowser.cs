@@ -78,6 +78,30 @@ namespace FFBrowser
 
 			root.Nodes.Add(portals);
 
+			// Load Exits
+			var exits = Node("Exits", null);
+
+			for (int exit = 0; exit < Map.Exits.Length; exit++)
+			{
+				var node = Node(exit.ToString("X2") + ": (" + Map.Exits[exit].X + ", " + Map.Exits[exit].Y + ")", new PortalNode { Portal = exit, X = Map.Exits[exit].X, Y = Map.Exits[exit].Y });
+
+				exits.Nodes.Add(node);
+			}
+
+			root.Nodes.Add(exits);
+
+			// Load Treasures
+			RomTreasure.Load();
+
+			var treasures = Node("Treasure", null);
+
+			for (int treasure = 0; treasure < GameRom.TreasureCount; treasure++)
+			{
+				treasures.Nodes.Add(Node(treasure.ToString("X2"), new { Item = Map.Treasure[treasure] }));
+			}
+
+			root.Nodes.Add(treasures);
+
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
