@@ -15,8 +15,8 @@ namespace FFBrowser
 		internal static int MapBank = 4;
 		internal static int MapAddress = 0x8000;
 
-		internal static int ObjectBank = 0;
-		internal static int ObjectAddress = 0xB400;
+		internal static int MapObjectBank = 0;
+		internal static int MapObjectAddress = 0xB400;
 
 		internal static int AttributeBank = 0;
 		internal static int AttributeAddress = 0x8400;
@@ -67,5 +67,11 @@ namespace FFBrowser
 
 		internal static int PriceBank = 0x0D;
 		internal static int PriceAddress = 0xBC00;
+
+		internal static int ObjectDialogBank = 0x0E;
+		internal static int ObjectDialogAddress = 0x95D5;
+		internal static int ObjectDialogCount = 4;
+
+		internal static int ObjectCount = 0xD0;
 	}
 }

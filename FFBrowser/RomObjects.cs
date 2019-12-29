@@ -9,16 +9,35 @@ namespace FFBrowser
 {
 	internal static class RomObjects
 	{
-		internal static void Load(int map)
+		internal static void Load()
 		{
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))
 			{
-				reader.Seek(GameRom.ObjectBank, GameRom.ObjectAddress);
+				reader.Seek(GameRom.ObjectDialogBank, GameRom.ObjectDialogAddress);
+
+				for (var obj = 0; obj < GameRom.ObjectCount; obj++)
+				{
+					Game.ObjectDialogs[obj] = new int[GameRom.ObjectDialogCount];
+
+					for (var dialog = 0; dialog < GameRom.ObjectDialogCount; dialog++)
+					{
+						Game.ObjectDialogs[obj][dialog] = reader.ReadByte();
+					}
+				}
+			}
+		}
+
+		internal static void LoadMap(int map)
+		{
+			using (var stream = new MemoryStream(Rom.Data))
+			using (var reader = new RomReader(stream))
+			{
+				reader.Seek(GameRom.MapObjectBank, GameRom.MapObjectAddress);
 
 				reader.BaseStream.Seek(map * 0x30, SeekOrigin.Current);
 
-				for(var obj = 0; obj < Map.Objects.Length; obj++)
+				for (var obj = 0; obj < Map.Objects.Length; obj++)
 				{
 					var type = reader.ReadByte();
 					var value = reader.ReadByte();

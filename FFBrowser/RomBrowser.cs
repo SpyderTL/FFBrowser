@@ -126,6 +126,25 @@ namespace FFBrowser
 
 			root.Nodes.Add(dialogs);
 
+			// Load Objects
+			RomObjects.Load();
+
+			var objects = Node("Objects", null);
+
+			for (int obj = 0; obj < GameRom.ObjectCount; obj++)
+			{
+				var objectNode = Node(obj.ToString("X2"), null);
+
+				for (int dialog = 0; dialog < GameRom.ObjectDialogCount; dialog++)
+				{
+					objectNode.Nodes.Add(Game.ObjectDialogs[obj][dialog].ToString("X2"));
+				}
+
+				objects.Nodes.Add(objectNode);
+			}
+
+			root.Nodes.Add(objects);
+
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
@@ -223,13 +242,13 @@ namespace FFBrowser
 
 				e.Node.Nodes.Add(segments);
 
-				RomObjects.Load(((MapNode)e.Node.Tag).Map);
+				RomObjects.LoadMap(((MapNode)e.Node.Tag).Map);
 
 				var objects = Node("Objects", null);
 
 				for (var obj = 0; obj < Map.Objects.Length; obj++)
 				{
-					objects.Nodes.Add(Node("(" + Map.Objects[obj].X.ToString() + ", " + Map.Objects[obj].Y + ") " + Map.Objects[obj].Type, new ObjectNode { Object = obj, X = Map.Objects[obj].X, Y = Map.Objects[obj].Y, Type = Map.Objects[obj].Type, Flags = Map.Objects[obj].Flags }));
+					objects.Nodes.Add(Node("(" + Map.Objects[obj].X.ToString() + ", " + Map.Objects[obj].Y + ") " + Map.Objects[obj].Type.ToString("X2"), new ObjectNode { Object = obj, X = Map.Objects[obj].X, Y = Map.Objects[obj].Y, Type = Map.Objects[obj].Type, Flags = Map.Objects[obj].Flags }));
 				}
 
 				e.Node.Nodes.Add(objects);
