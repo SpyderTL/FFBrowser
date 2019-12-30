@@ -121,7 +121,7 @@ namespace FFBrowser
 
 			for (int weapon = 0; weapon < GameRom.WeaponCount; weapon++)
 			{
-				weapons.Nodes.Add(Node(weapon.ToString("X2"), new { Weapon = weapon, Game.Weapons[weapon].Hit, Game.Weapons[weapon].Damage, Game.Weapons[weapon].Critical, Game.Weapons[weapon].Magic, Game.Weapons[weapon].Elements, Game.Weapons[weapon].Effective, Game.Weapons[weapon].Graphic, Game.Weapons[weapon].Palette }));
+				weapons.Nodes.Add(Node(weapon.ToString("X2") + ": " + Game.Items[weapon + 0x1C], new { Weapon = weapon, Name = Game.Items[weapon + 0x1C], Game.Weapons[weapon].Hit, Game.Weapons[weapon].Damage, Game.Weapons[weapon].Critical, Game.Weapons[weapon].Magic, Game.Weapons[weapon].Elements, Game.Weapons[weapon].Effective, Game.Weapons[weapon].Graphic, Game.Weapons[weapon].Palette }));
 			}
 
 			root.Nodes.Add(weapons);
@@ -133,7 +133,7 @@ namespace FFBrowser
 
 			for (int armor = 0; armor < GameRom.ArmorCount; armor++)
 			{
-				armorNode.Nodes.Add(Node(armor.ToString("X2"), new { Weapon = armor, Game.Armor[armor].Evade, Game.Armor[armor].Absorb, Game.Armor[armor].Elements, Game.Armor[armor].Magic }));
+				armorNode.Nodes.Add(Node(armor.ToString("X2") + ": " + Game.Items[armor + 0x44], new { Weapon = armor, Name = Game.Items[armor + 0x44], Game.Armor[armor].Evade, Game.Armor[armor].Absorb, Game.Armor[armor].Elements, Game.Armor[armor].Magic }));
 			}
 
 			root.Nodes.Add(armorNode);
@@ -145,7 +145,7 @@ namespace FFBrowser
 
 			for (int magic = 0; magic < GameRom.MagicCount; magic++)
 			{
-				magicNode.Nodes.Add(Node(magic.ToString("X2"), new { Magic = magic, Game.Magic[magic].Hit, Game.Magic[magic].Effective, Game.Magic[magic].Elements, Game.Magic[magic].Target, Game.Magic[magic].Effect, Game.Magic[magic].Graphic, Game.Magic[magic].Palette, Game.Magic[magic].Reserved }));
+				magicNode.Nodes.Add(Node(magic.ToString("X2") + ": " + Game.Items[magic + 0xB0], new { Magic = magic, Name = Game.Items[magic + 0xB0], Game.Magic[magic].Hit, Game.Magic[magic].Effective, Game.Magic[magic].Elements, Game.Magic[magic].Target, Game.Magic[magic].Effect, Game.Magic[magic].Graphic, Game.Magic[magic].Palette, Game.Magic[magic].Reserved }));
 			}
 
 			root.Nodes.Add(magicNode);
