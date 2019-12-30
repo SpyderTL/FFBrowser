@@ -36,8 +36,17 @@ namespace FFBrowser
 
 				reader.Seek(GameRom.NameBank, GameRom.NameAddress);
 
+				var addresses = new int[GameRom.EnemyCount];
+
 				for (var enemy = 0; enemy < GameRom.EnemyCount; enemy++)
 				{
+					addresses[enemy] = reader.ReadUInt16();
+				}
+
+				for (var enemy = 0; enemy < GameRom.EnemyCount; enemy++)
+				{
+					reader.Seek(GameRom.NameBank, addresses[enemy]);
+
 					Game.Enemies[enemy].Name = reader.ReadName();
 				}
 			}

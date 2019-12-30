@@ -52,6 +52,7 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RomLogic.cs" />
     <Compile Include="RomMagic.cs" />
     <Compile Include="RomEnemies.cs" />
     <Compile Include="RomDialogs.cs" />

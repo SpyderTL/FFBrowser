@@ -165,13 +165,13 @@ namespace FFBrowser
 		{
 			None = 0,
 			Earth = 1,
-			Air = 2,
+			Wind = 2,
 			Water = 4,
-			Unknown8 = 8,
+			Holy = 8,
 			Fire = 16,
 			Ice = 32,
-			Unknown64 = 64,
-			Unknown128 = 128
+			Lightning = 64,
+			Dark = 128
 		}
 
 		[Flags]
@@ -211,8 +211,8 @@ namespace FFBrowser
 		{
 			public int Magic;
 			public int Special;
-			public int[] MagicAvailable;
-			public int[] SpecialAvailable;
+			public int[] MagicOptions;
+			public int[] SpecialOptions;
 		}
 	}
 }

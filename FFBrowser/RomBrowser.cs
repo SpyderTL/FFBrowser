@@ -162,6 +162,18 @@ namespace FFBrowser
 
 			root.Nodes.Add(enemies);
 
+			// Load Logic
+			RomLogic.Load();
+
+			var logicNode = Node("Logic", null);
+
+			for (int logic = 0; logic < GameRom.EnemyCount; logic++)
+			{
+				logicNode.Nodes.Add(Node(logic.ToString("X2"), new { Logic = logic, Game.Logic[logic].Magic, Game.Logic[logic].Special, Game.Logic[logic].MagicOptions, Game.Logic[logic].SpecialOptions }));
+			}
+
+			root.Nodes.Add(logicNode);
+
 			// Load Dialogs
 			RomDialogs.Load();
 
@@ -197,6 +209,7 @@ namespace FFBrowser
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
 			Form.TreeView.AfterExpand += TreeView_AfterExpand;
+			Form.TreeView.BeforeExpand += TreeView_BeforeExpand;
 
 			Application.Run(Form);
 		}
@@ -219,6 +232,11 @@ namespace FFBrowser
 			node.Nodes.Add("Loading...");
 
 			return node;
+		}
+
+		private static void TreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+		{
+			Form.TreeView.BeginUpdate();
 		}
 
 		private static void TreeView_AfterExpand(object sender, TreeViewEventArgs e)
@@ -273,7 +291,6 @@ namespace FFBrowser
 				}
 
 				e.Node.Nodes.Add(portals);
-
 			}
 			else if (e.Node.Tag is MapNode map)
 			{
@@ -312,7 +329,10 @@ namespace FFBrowser
 					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value }));
 				}
 			}
+
+			Form.TreeView.EndUpdate();
 		}
+
 		private static void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			Form.PropertyGrid.SelectedObject = e.Node.Tag;

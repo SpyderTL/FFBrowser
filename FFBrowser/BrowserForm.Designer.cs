@@ -96,6 +96,7 @@
 			this.PropertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
 			this.PropertyGrid.Size = new System.Drawing.Size(654, 697);
 			this.PropertyGrid.TabIndex = 0;
+			this.PropertyGrid.ToolbarVisible = false;
 			// 
 			// BrowserForm
 			// 
@@ -103,6 +104,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1008, 729);
 			this.Controls.Add(this.splitContainer1);
+			this.DoubleBuffered = true;
 			this.Name = "BrowserForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Browser";
