@@ -73,5 +73,28 @@ namespace FFBrowser
 		internal static int ObjectDialogCount = 4;
 
 		internal static int ObjectCount = 0xD0;
+
+		internal static int WeaponBank = 0x0C;
+		internal static int WeaponAddress = 0x8000;
+		internal static int WeaponCount = 40;
+
+		internal static int ArmorBank = 0x0C;
+		internal static int ArmorAddress = 0x8140;
+		internal static int ArmorCount = 40;
+
+		internal static int MagicBank = 0x0C;
+		internal static int MagicAddress = 0x81E0;
+		internal static int MagicCount = 0x5C;
+
+		internal static int EnemyBank = 0x0C;
+		internal static int EnemyAddress = 0x8520;
+		internal static int EnemyCount = 0x80;
+
+		internal static int LogicBank = 0x0C;
+		internal static int LogicAddress = 0x9020;
+		internal static int LogicCount = 0x80;
+
+		internal static int NameBank = 0x0B;
+		internal static int NameAddress = 0x94E0;
 	}
 }

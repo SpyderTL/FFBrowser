@@ -114,6 +114,54 @@ namespace FFBrowser
 
 			root.Nodes.Add(items);
 
+			// Load Weapons
+			RomWeapons.Load();
+
+			var weapons = Node("Weapons", null);
+
+			for (int weapon = 0; weapon < GameRom.WeaponCount; weapon++)
+			{
+				weapons.Nodes.Add(Node(weapon.ToString("X2"), new { Weapon = weapon, Game.Weapons[weapon].Hit, Game.Weapons[weapon].Damage, Game.Weapons[weapon].Critical, Game.Weapons[weapon].Magic, Game.Weapons[weapon].Elements, Game.Weapons[weapon].Effective, Game.Weapons[weapon].Graphic, Game.Weapons[weapon].Palette }));
+			}
+
+			root.Nodes.Add(weapons);
+
+			// Load Armor
+			RomArmor.Load();
+
+			var armorNode = Node("Armor", null);
+
+			for (int armor = 0; armor < GameRom.ArmorCount; armor++)
+			{
+				armorNode.Nodes.Add(Node(armor.ToString("X2"), new { Weapon = armor, Game.Armor[armor].Evade, Game.Armor[armor].Absorb, Game.Armor[armor].Elements, Game.Armor[armor].Magic }));
+			}
+
+			root.Nodes.Add(armorNode);
+
+			// Load Magic
+			RomMagic.Load();
+
+			var magicNode = Node("Magic", null);
+
+			for (int magic = 0; magic < GameRom.MagicCount; magic++)
+			{
+				magicNode.Nodes.Add(Node(magic.ToString("X2"), new { Magic = magic, Game.Magic[magic].Hit, Game.Magic[magic].Effective, Game.Magic[magic].Elements, Game.Magic[magic].Target, Game.Magic[magic].Effect, Game.Magic[magic].Graphic, Game.Magic[magic].Palette, Game.Magic[magic].Reserved }));
+			}
+
+			root.Nodes.Add(magicNode);
+
+			// Load Enemies
+			RomEnemies.Load();
+
+			var enemies = Node("Enemies", null);
+
+			for (int enemy = 0; enemy < GameRom.EnemyCount; enemy++)
+			{
+				enemies.Nodes.Add(Node(enemy.ToString("X2") + ": " + Game.Enemies[enemy].Name, new { Enemy = enemy, Game.Enemies[enemy].Name, Game.Enemies[enemy].Experience, Game.Enemies[enemy].Gold, Game.Enemies[enemy].Health, Game.Enemies[enemy].Morale, Game.Enemies[enemy].Logic, Game.Enemies[enemy].Evade, Game.Enemies[enemy].Absorb, Game.Enemies[enemy].Hits, Game.Enemies[enemy].Hit, Game.Enemies[enemy].Damage, Game.Enemies[enemy].Critical, Game.Enemies[enemy].Reserved, Game.Enemies[enemy].Attack, Game.Enemies[enemy].Categories, Game.Enemies[enemy].MagicDefense, Game.Enemies[enemy].Weak, Game.Enemies[enemy].Resist }));
+			}
+
+			root.Nodes.Add(enemies);
+
 			// Load Dialogs
 			RomDialogs.Load();
 

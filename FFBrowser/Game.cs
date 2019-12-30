@@ -108,5 +108,111 @@ namespace FFBrowser
 		public static int[][] ObjectDialogs = new int[208][];
 		public static string[] Items = new string[256];
 		public static string[] Dialogs = new string[256];
+		public static WeaponData[] Weapons = new WeaponData[40];
+		public static ArmorData[] Armor = new ArmorData[40];
+		public static MagicData[] Magic = new MagicData[0x5C];
+		public static EnemyData[] Enemies = new EnemyData[0x80];
+		public static LogicData[] Logic = new LogicData[0x80];
+
+		public struct WeaponData
+		{
+			public int Hit;
+			public int Damage;
+			public int Critical;
+			public int Magic;
+			public Elements Elements;
+			public EnemyCategories Effective;
+			public int Graphic;
+			public int Palette;
+		}
+
+		public struct ArmorData
+		{
+			public int Evade;
+			public int Absorb;
+			public Elements Elements;
+			public int Magic;
+		}
+
+		public struct MagicData
+		{
+			public int Hit;
+			public EnemyCategories Effective;
+			public Elements Elements;
+			public MagicTarget Target;
+			public int Effect;
+			public int Graphic;
+			public int Palette;
+			public int Reserved;
+		}
+
+		[Flags]
+		public enum EnemyCategories
+		{
+			None = 0,
+			Normal = 1,
+			Dragon = 2,
+			Giant = 4,
+			Undead = 8,
+			Were = 16,
+			Water = 32,
+			Mage = 64,
+			Regen = 128
+		}
+
+		[Flags]
+		public enum Elements
+		{
+			None = 0,
+			Earth = 1,
+			Air = 2,
+			Water = 4,
+			Unknown8 = 8,
+			Fire = 16,
+			Ice = 32,
+			Unknown64 = 64,
+			Unknown128 = 128
+		}
+
+		[Flags]
+		public enum MagicTarget
+		{
+			None = 0,
+			Enemies = 1,
+			Enemy = 2,
+			Self = 4,
+			Allies = 8,
+			Ally = 16
+		}
+
+		public struct EnemyData
+		{
+			public int Experience;
+			public int Gold;
+			public int Health;
+			public int Morale;
+			public int Logic;
+			public int Evade;
+			public int Absorb;
+			public int Hits;
+			public int Hit;
+			public int Damage;
+			public int Critical;
+			public int Reserved;
+			public int Attack;
+			public EnemyCategories Categories;
+			public int MagicDefense;
+			public Elements Weak;
+			public Elements Resist;
+			public string Name;
+		}
+
+		public struct LogicData
+		{
+			public int Magic;
+			public int Special;
+			public int[] MagicAvailable;
+			public int[] SpecialAvailable;
+		}
 	}
 }
