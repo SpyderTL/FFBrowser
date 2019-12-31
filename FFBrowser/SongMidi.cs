@@ -17,6 +17,9 @@ namespace FFBrowser
 		internal static int[] Loop = new int[3];
 		internal static bool[] Playing = new bool[3];
 
+		internal static event Action<int> ChannelActive;
+		internal static event Action<int> ChannelInactive;
+
 		internal static void Play()
 		{
 			Events[0] = Song.Channels[0];
@@ -53,7 +56,7 @@ namespace FFBrowser
 
 			Midi.ProgramChange(0, 80);
 			Midi.ProgramChange(1, 80);
-			Midi.ProgramChange(2, 80);
+			Midi.ProgramChange(2, 35);
 
 			Stopped = false;
 
@@ -77,6 +80,7 @@ namespace FFBrowser
 								{
 									case Song.EventType.End:
 										Midi.NoteOff(channel, Last[channel], 127);
+										ChannelInactive?.Invoke(channel);
 										Playing[channel] = false;
 										Timers[channel] = -1;
 										break;
@@ -85,6 +89,7 @@ namespace FFBrowser
 										Midi.NoteOff(channel, Last[channel], 127);
 										var note = e.Value + (Octave[channel] * 12) + (channel == 2 ? 36 : 48);
 										Midi.NoteOn(channel, note, 127);
+										ChannelActive?.Invoke(channel);
 										Timers[channel] = Song.Tempo[Tempo[channel]][e.Value2];
 										Last[channel] = note;
 										Next[channel]++;
@@ -92,6 +97,7 @@ namespace FFBrowser
 
 									case Song.EventType.Rest:
 										Midi.NoteOff(channel, Last[channel], 127);
+										ChannelInactive?.Invoke(channel);
 										Timers[channel] = Song.Tempo[Tempo[channel]][e.Value];
 										Next[channel]++;
 										break;

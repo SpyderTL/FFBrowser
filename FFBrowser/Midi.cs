@@ -24,7 +24,7 @@ namespace FFBrowser
 
 		public static void Enable()
 		{
-			var result = midiOutOpen(ref Handle, 0, null, 0, 0);
+			var result = midiOutOpen(ref Handle, -1, null, 0, 0);
 		}
 
 		public static void NoteOn(int channel, int note, int velocity)
