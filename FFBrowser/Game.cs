@@ -73,6 +73,34 @@ namespace FFBrowser
 			"Titan's Tunnel",
 		};
 
+		public static string[] Songs = new string[]
+		{
+			"Crystal Theme",
+			"Bridge Theme",
+			"Epilogue",
+			"World Theme",
+			"Ship Theme",
+			"Airship Theme",
+			"Unknown",
+			"Unknown",
+			"Unknown",
+			"Unknown",
+			"Unknown",
+			"Unknown",
+			"Unknown",
+			"Unknown",
+			"Shop Theme",
+			"Battle Theme",
+			"Menu Theme",
+			"Game Over",
+			"Victory Theme",
+			"Special Item / Puzzle Solved",
+			"Crystal Theme 2",
+			"Save Game",
+			"Cure Effect",
+			"Treasure Chest"
+		};
+
 		public enum Objects
 		{
 			Garland = 2,
@@ -130,20 +158,36 @@ namespace FFBrowser
 		{
 			public int Evade;
 			public int Absorb;
-			public Elements Elements;
+			public Elements Resist;
 			public int Magic;
 		}
 
 		public struct MagicData
 		{
 			public int Hit;
-			public EnemyCategories Effective;
+			public int Value;
 			public Elements Elements;
 			public MagicTarget Target;
-			public int Effect;
+			public MagicEffect Effect;
+			public Elements EffectElements;
+			public Status EffectStatus;
 			public int Graphic;
 			public int Palette;
 			public int Reserved;
+		}
+
+		[Flags]
+		public enum Status
+		{
+			None = 0,
+			Dead = 1,
+			Stone = 2,
+			Poison = 4,
+			Dark = 8,
+			Stun = 16,
+			Sleep = 32,
+			Mute = 64,
+			Confused = 128
 		}
 
 		[Flags]
@@ -164,14 +208,14 @@ namespace FFBrowser
 		public enum Elements
 		{
 			None = 0,
-			Earth = 1,
-			Wind = 2,
-			Water = 4,
-			Holy = 8,
+			Status = 1,
+			Poison = 2,
+			Time = 4,
+			Death = 8,
 			Fire = 16,
 			Ice = 32,
 			Lightning = 64,
-			Dark = 128
+			Earth = 128
 		}
 
 		[Flags]
@@ -183,6 +227,29 @@ namespace FFBrowser
 			Self = 4,
 			Allies = 8,
 			Ally = 16
+		}
+
+		public enum MagicEffect
+		{
+			None,
+			Damage,
+			Holy,
+			Status,
+			Slow,
+			Fear,
+			Health,
+			Health2,
+			Cure,
+			Absorb,
+			Resist,
+			Attack,
+			Fast,
+			Attack2,
+			Stun,
+			CureAll,
+			Evade,
+			Weak,
+			Status2
 		}
 
 		public struct EnemyData

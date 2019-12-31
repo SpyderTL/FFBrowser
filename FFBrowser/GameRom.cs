@@ -96,5 +96,14 @@ namespace FFBrowser
 
 		internal static int NameBank = 0x0B;
 		internal static int NameAddress = 0x94E0;
+
+		internal static int SongBank = 0x0D;
+		internal static int SongAddress = 0x8000;
+		internal static int SongCount = 24;
+
+		internal static int TempoBank = 0x0D;
+		internal static int TempoAddress = 0xB359;
+		internal static int TempoCount = 6;
+		internal static int DurationCount = 16;
 	}
 }

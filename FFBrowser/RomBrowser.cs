@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -133,7 +135,7 @@ namespace FFBrowser
 
 			for (int armor = 0; armor < GameRom.ArmorCount; armor++)
 			{
-				armorNode.Nodes.Add(Node(armor.ToString("X2") + ": " + Game.Items[armor + 0x44], new { Weapon = armor, Name = Game.Items[armor + 0x44], Game.Armor[armor].Evade, Game.Armor[armor].Absorb, Game.Armor[armor].Elements, Game.Armor[armor].Magic }));
+				armorNode.Nodes.Add(Node(armor.ToString("X2") + ": " + Game.Items[armor + 0x44], new { Weapon = armor, Name = Game.Items[armor + 0x44], Game.Armor[armor].Evade, Game.Armor[armor].Absorb, Game.Armor[armor].Resist, Game.Armor[armor].Magic }));
 			}
 
 			root.Nodes.Add(armorNode);
@@ -145,7 +147,7 @@ namespace FFBrowser
 
 			for (int magic = 0; magic < GameRom.MagicCount; magic++)
 			{
-				magicNode.Nodes.Add(Node(magic.ToString("X2") + ": " + Game.Items[magic + 0xB0], new { Magic = magic, Name = Game.Items[magic + 0xB0], Game.Magic[magic].Hit, Game.Magic[magic].Effective, Game.Magic[magic].Elements, Game.Magic[magic].Target, Game.Magic[magic].Effect, Game.Magic[magic].Graphic, Game.Magic[magic].Palette, Game.Magic[magic].Reserved }));
+				magicNode.Nodes.Add(Node(magic.ToString("X2") + ": " + Game.Items[magic + 0xB0], new { Magic = magic, Name = Game.Items[magic + 0xB0], Game.Magic[magic].Hit, Game.Magic[magic].Value, Game.Magic[magic].Elements, Game.Magic[magic].Target, Game.Magic[magic].Effect, Game.Magic[magic].EffectElements, Game.Magic[magic].EffectStatus, Game.Magic[magic].Graphic, Game.Magic[magic].Palette, Game.Magic[magic].Reserved }));
 			}
 
 			root.Nodes.Add(magicNode);
@@ -204,6 +206,20 @@ namespace FFBrowser
 			}
 
 			root.Nodes.Add(objects);
+
+			// Load Songs
+			RomSongs.Load(0);
+
+			var songs = Node("Songs", null);
+
+			for (int song = 0; song < GameRom.SongCount; song++)
+			{
+				var songNode = Folder(song.ToString("X2") + ": " + Game.Songs[song], new SongNode { Song = song });
+
+				songs.Nodes.Add(songNode);
+			}
+
+			root.Nodes.Add(songs);
 
 			Form.TreeView.Nodes.Add(root);
 
@@ -329,6 +345,22 @@ namespace FFBrowser
 					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value }));
 				}
 			}
+			else if (e.Node.Tag is SongNode song)
+			{
+				e.Node.Nodes.Clear();
+
+				RomSongs.Load(song.Song);
+
+				for (var channel = 0; channel < 3; channel++)
+				{
+					var channelNode = Node(channel.ToString("X2"), null);
+
+					for(var note = 0; note < Song.Channels[channel].Length; note++)
+						channelNode.Nodes.Add(Node(Song.Channels[channel][note].Address.ToString("X2"), new { Note = note, Song.Channels[channel][note].Address, Song.Channels[channel][note].Type, Song.Channels[channel][note].Value, Song.Channels[channel][note].Value2, }));
+
+					e.Node.Nodes.Add(channelNode);
+				}
+			}
 
 			Form.TreeView.EndUpdate();
 		}
@@ -393,6 +425,86 @@ namespace FFBrowser
 		private class TilesetNode
 		{
 			public int Tileset { get; set; }
+		}
+
+		private class SongNode : IMenuCommandService, ISite, IComponent
+		{
+			public int Song { get; set; }
+
+			[Browsable(false)]
+			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Play", Play) });
+
+			[Browsable(false)]
+			public IContainer Container => null;
+
+			[Browsable(false)]
+			public bool DesignMode => true;
+
+			[Browsable(false)]
+			public string Name { get => "Song"; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public ISite Site { get => this; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public IComponent Component => this;
+
+			public event EventHandler Disposed;
+
+			private void Play(object sender, EventArgs e)
+			{
+				RomSongs.Load(Song);
+
+				PlayerForm.Show();
+
+				SongMidi.Play();
+			}
+
+			public void AddCommand(MenuCommand command)
+			{
+			}
+
+			public void AddVerb(DesignerVerb verb)
+			{
+			}
+
+			public MenuCommand FindCommand(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public bool GlobalInvoke(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveCommand(MenuCommand command)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveVerb(DesignerVerb verb)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void ShowContextMenu(CommandID menuID, int x, int y)
+			{
+				throw new NotImplementedException();
+			}
+
+			public object GetService(Type serviceType)
+			{
+				if(serviceType == typeof(IMenuCommandService))
+					return this;
+
+				return null;
+			}
+
+			public void Dispose()
+			{
+				Disposed?.Invoke(this, new EventArgs());
+			}
 		}
 	}
 }

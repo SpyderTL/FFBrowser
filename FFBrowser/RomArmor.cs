@@ -17,7 +17,7 @@ namespace FFBrowser
 				{
 					Game.Armor[armor].Evade = reader.ReadByte();
 					Game.Armor[armor].Absorb = reader.ReadByte();
-					Game.Armor[armor].Elements = (Game.Elements)reader.ReadByte();
+					Game.Armor[armor].Resist = (Game.Elements)reader.ReadByte();
 					Game.Armor[armor].Magic = reader.ReadByte();
 				}
 			}
