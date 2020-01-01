@@ -54,9 +54,16 @@ namespace FFBrowser
 		{
 			Midi.Enable();
 
+			Midi.ControlChange(0, 123, 0);
+			Midi.ControlChange(1, 123, 0);
+			Midi.ControlChange(2, 123, 0);
+
 			Midi.ProgramChange(0, 80);
 			Midi.ProgramChange(1, 80);
 			Midi.ProgramChange(2, 35);
+
+			Midi.ControlChange(0, 0x0A, 0);
+			Midi.ControlChange(1, 0x0A, 127);
 
 			Stopped = false;
 
@@ -155,8 +162,12 @@ namespace FFBrowser
 				if (!playing)
 					Stopped = true;
 				else
-					Thread.Sleep(17);
+					Thread.Sleep(16);
 			}
+
+			Midi.ControlChange(0, 123, 0);
+			Midi.ControlChange(1, 123, 0);
+			Midi.ControlChange(2, 123, 0);
 
 			Midi.Disable();
 		}

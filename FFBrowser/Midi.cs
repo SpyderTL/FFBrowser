@@ -10,41 +10,58 @@ namespace FFBrowser
 	public static class Midi
 	{
 		[DllImport("winmm.dll")]
-		private static extern int midiOutOpen(ref int handle, int deviceID, MidiCallBack proc, int instance, int flags);
+		static extern uint midiOutOpen(out IntPtr lphMidiOut, uint uDeviceID, IntPtr dwCallback, IntPtr dwInstance, uint dwFlags);
 
 		[DllImport("winmm.dll")]
-		private static extern int midiOutShortMsg(int handle, int message);
+		static extern uint midiOutShortMsg(IntPtr hMidiOut, uint dwMsg);
 
 		[DllImport("winmm.dll")]
-		private static extern int midiOutClose(int handle);
+		static extern uint midiOutClose(IntPtr hMidiOut);
 
-		private delegate void MidiCallBack(int handle, int msg, int instance, int param1, int param2);
+		private delegate void MidiCallBack(IntPtr handle, uint msg, uint instance, uint param1, uint param2);
 
-		private static int Handle;
+		private static IntPtr Handle;
 
 		public static void Enable()
 		{
-			var result = midiOutOpen(ref Handle, -1, null, 0, 0);
+			var result = midiOutOpen(out Handle, 0xFFFFFFFF, IntPtr.Zero, IntPtr.Zero, 0);
+
+			//System.Diagnostics.Debug.WriteLine(result);
 		}
 
 		public static void NoteOn(int channel, int note, int velocity)
 		{
-			var result = midiOutShortMsg(Handle, 0x90 | channel | (note << 8) | (velocity << 16));
+			var result = midiOutShortMsg(Handle, 0x90u | (uint)channel | ((uint)note << 8) | ((uint)velocity << 16));
+
+			//System.Diagnostics.Debug.WriteLine(result);
 		}
 
 		public static void NoteOff(int channel, int note, int velocity)
 		{
-			var result = midiOutShortMsg(Handle, 0x80 | channel | (note << 8) | (velocity << 16));
+			var result = midiOutShortMsg(Handle, 0x80u | (uint)channel | ((uint)note << 8) | ((uint)velocity << 16));
+
+			//System.Diagnostics.Debug.WriteLine(result);
 		}
 
 		public static void ProgramChange(int channel, int patch)
 		{
-			var result = midiOutShortMsg(Handle, 0xC0 | channel | (patch << 8));
+			var result = midiOutShortMsg(Handle, 0xC0u | (uint)channel | ((uint)patch << 8));
+
+			//System.Diagnostics.Debug.WriteLine(result);
+		}
+
+		public static void ControlChange(int channel, int control, int value)
+		{
+			var result = midiOutShortMsg(Handle, 0xB0u | (uint)channel | ((uint)control << 8) | ((uint)value << 16));
+
+			//System.Diagnostics.Debug.WriteLine(result);
 		}
 
 		public static void Disable()
 		{
 			var result = midiOutClose(Handle);
+
+			//System.Diagnostics.Debug.WriteLine(result);
 		}
 	}
 }

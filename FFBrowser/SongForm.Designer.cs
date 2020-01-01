@@ -36,6 +36,12 @@
 			this.Panel1 = new System.Windows.Forms.Panel();
 			this.Panel2 = new System.Windows.Forms.Panel();
 			this.Panel3 = new System.Windows.Forms.Panel();
+			this.Panel4 = new System.Windows.Forms.Panel();
+			this.Panel5 = new System.Windows.Forms.Panel();
+			this.Panel6 = new System.Windows.Forms.Panel();
+			this.Label4 = new System.Windows.Forms.Label();
+			this.Label5 = new System.Windows.Forms.Label();
+			this.Label6 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// StopButton
@@ -70,7 +76,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 51);
+			this.label2.Location = new System.Drawing.Point(12, 61);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(82, 13);
 			this.label2.TabIndex = 5;
@@ -79,7 +85,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(12, 93);
+			this.label3.Location = new System.Drawing.Point(12, 113);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(77, 13);
 			this.label3.TabIndex = 7;
@@ -96,7 +102,7 @@
 			// Panel2
 			// 
 			this.Panel2.BackColor = System.Drawing.Color.Lime;
-			this.Panel2.Location = new System.Drawing.Point(12, 67);
+			this.Panel2.Location = new System.Drawing.Point(12, 77);
 			this.Panel2.Name = "Panel2";
 			this.Panel2.Size = new System.Drawing.Size(0, 23);
 			this.Panel2.TabIndex = 9;
@@ -104,16 +110,70 @@
 			// Panel3
 			// 
 			this.Panel3.BackColor = System.Drawing.Color.Lime;
-			this.Panel3.Location = new System.Drawing.Point(12, 109);
+			this.Panel3.Location = new System.Drawing.Point(12, 129);
 			this.Panel3.Name = "Panel3";
 			this.Panel3.Size = new System.Drawing.Size(0, 23);
 			this.Panel3.TabIndex = 10;
+			// 
+			// Panel4
+			// 
+			this.Panel4.BackColor = System.Drawing.Color.Green;
+			this.Panel4.Location = new System.Drawing.Point(100, 10);
+			this.Panel4.Name = "Panel4";
+			this.Panel4.Size = new System.Drawing.Size(12, 12);
+			this.Panel4.TabIndex = 11;
+			// 
+			// Panel5
+			// 
+			this.Panel5.BackColor = System.Drawing.Color.Green;
+			this.Panel5.Location = new System.Drawing.Point(100, 62);
+			this.Panel5.Name = "Panel5";
+			this.Panel5.Size = new System.Drawing.Size(12, 12);
+			this.Panel5.TabIndex = 12;
+			// 
+			// Panel6
+			// 
+			this.Panel6.BackColor = System.Drawing.Color.Green;
+			this.Panel6.Location = new System.Drawing.Point(100, 114);
+			this.Panel6.Name = "Panel6";
+			this.Panel6.Size = new System.Drawing.Size(12, 12);
+			this.Panel6.TabIndex = 13;
+			// 
+			// Label4
+			// 
+			this.Label4.AutoSize = true;
+			this.Label4.Location = new System.Drawing.Point(118, 9);
+			this.Label4.Name = "Label4";
+			this.Label4.Size = new System.Drawing.Size(0, 13);
+			this.Label4.TabIndex = 14;
+			// 
+			// Label5
+			// 
+			this.Label5.AutoSize = true;
+			this.Label5.Location = new System.Drawing.Point(118, 61);
+			this.Label5.Name = "Label5";
+			this.Label5.Size = new System.Drawing.Size(0, 13);
+			this.Label5.TabIndex = 15;
+			// 
+			// Label6
+			// 
+			this.Label6.AutoSize = true;
+			this.Label6.Location = new System.Drawing.Point(118, 113);
+			this.Label6.Name = "Label6";
+			this.Label6.Size = new System.Drawing.Size(0, 13);
+			this.Label6.TabIndex = 16;
 			// 
 			// SongForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(657, 193);
+			this.Controls.Add(this.Label6);
+			this.Controls.Add(this.Label5);
+			this.Controls.Add(this.Label4);
+			this.Controls.Add(this.Panel6);
+			this.Controls.Add(this.Panel5);
+			this.Controls.Add(this.Panel4);
 			this.Controls.Add(this.Panel3);
 			this.Controls.Add(this.Panel2);
 			this.Controls.Add(this.Panel1);
@@ -140,5 +200,11 @@
 		public System.Windows.Forms.Panel Panel1;
 		public System.Windows.Forms.Panel Panel2;
 		public System.Windows.Forms.Panel Panel3;
+		public System.Windows.Forms.Panel Panel4;
+		public System.Windows.Forms.Panel Panel5;
+		public System.Windows.Forms.Panel Panel6;
+		public System.Windows.Forms.Label Label4;
+		public System.Windows.Forms.Label Label5;
+		public System.Windows.Forms.Label Label6;
 	}
 }
