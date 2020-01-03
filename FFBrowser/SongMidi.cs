@@ -12,7 +12,7 @@ namespace FFBrowser
 		internal static int[] Next = new int[3];
 		internal static int[] Last = new int[3];
 		internal static int[] Octave = new int[3];
-		internal static int[] Timers = new int[3];
+		internal static double[] Timers = new double[3];
 		internal static int[] Tempo = new int[3];
 		internal static int[] Loop = new int[3];
 		internal static bool[] Playing = new bool[3];
@@ -67,8 +67,14 @@ namespace FFBrowser
 
 			Stopped = false;
 
+			var last = DateTime.Now;
+
 			while (!Stopped)
 			{
+				var now = DateTime.Now;
+				var elapsed = now - last;
+				last = now;
+
 				var playing = false;
 
 				for (var channel = 0; channel < 3; channel++)
@@ -77,92 +83,86 @@ namespace FFBrowser
 					{
 						playing = true;
 
-						if (Timers[channel] == 0)
+						Timers[channel] -= elapsed.TotalMilliseconds * 0.056;
+					}
+
+					while (Playing[channel] && Timers[channel] <= 0)
+					{
+						var e = Events[channel][Next[channel]];
+
+						switch (e.Type)
 						{
-							while (Timers[channel] == 0)
-							{
-								var e = Events[channel][Next[channel]];
+							case Song.EventType.End:
+								Midi.NoteOff(channel, Last[channel], 127);
+								ChannelInactive?.Invoke(channel);
+								Playing[channel] = false;
+								break;
 
-								switch (e.Type)
+							case Song.EventType.Note:
+								Midi.NoteOff(channel, Last[channel], 127);
+								var note = e.Value + (Octave[channel] * 12) + (channel == 2 ? 36 : 48);
+								Midi.NoteOn(channel, note, 127);
+								ChannelActive?.Invoke(channel);
+								Timers[channel] += Song.Tempo[Tempo[channel]][e.Value2];
+								Last[channel] = note;
+								Next[channel]++;
+								break;
+
+							case Song.EventType.Rest:
+								Midi.NoteOff(channel, Last[channel], 127);
+								ChannelInactive?.Invoke(channel);
+								Timers[channel] += Song.Tempo[Tempo[channel]][e.Value];
+								Next[channel]++;
+								break;
+
+							case Song.EventType.Tempo:
+								Tempo[channel] = e.Value;
+								Next[channel]++;
+								break;
+
+							case Song.EventType.Octave:
+								Octave[channel] = e.Value;
+								Next[channel]++;
+								break;
+
+							case Song.EventType.Loop:
+								if (Loop[channel] == 0)
 								{
-									case Song.EventType.End:
-										Midi.NoteOff(channel, Last[channel], 127);
-										ChannelInactive?.Invoke(channel);
-										Playing[channel] = false;
-										Timers[channel] = -1;
-										break;
-
-									case Song.EventType.Note:
-										Midi.NoteOff(channel, Last[channel], 127);
-										var note = e.Value + (Octave[channel] * 12) + (channel == 2 ? 36 : 48);
-										Midi.NoteOn(channel, note, 127);
-										ChannelActive?.Invoke(channel);
-										Timers[channel] = Song.Tempo[Tempo[channel]][e.Value2];
-										Last[channel] = note;
-										Next[channel]++;
-										break;
-
-									case Song.EventType.Rest:
-										Midi.NoteOff(channel, Last[channel], 127);
-										ChannelInactive?.Invoke(channel);
-										Timers[channel] = Song.Tempo[Tempo[channel]][e.Value];
-										Next[channel]++;
-										break;
-
-									case Song.EventType.Tempo:
-										Tempo[channel] = e.Value;
-										Next[channel]++;
-										break;
-
-									case Song.EventType.Octave:
-										Octave[channel] = e.Value;
-										Next[channel]++;
-										break;
-
-									case Song.EventType.Loop:
-										if (Loop[channel] == 0)
-										{
-											Loop[channel] = -1;
-											Next[channel]++;
-										}
-										else
-										{
-											if (Loop[channel] == -1)
-												Loop[channel] = e.Value2;
-
-											Loop[channel]--;
-
-											Next[channel] = 0;
-
-											while (Events[channel][Next[channel]].Address != e.Value)
-												Next[channel]++;
-										}
-										break;
-
-									case Song.EventType.LoopInfinite:
-										Next[channel] = 0;
-
-										while (Events[channel][Next[channel]].Address != e.Value)
-											Next[channel]++;
-										break;
-
-									default:
-										Next[channel]++;
-										break;
+									Loop[channel] = -1;
+									Next[channel]++;
 								}
-							}
+								else
+								{
+									if (Loop[channel] == -1)
+										Loop[channel] = e.Value2;
 
-							Timers[channel]--;
+									Loop[channel]--;
+
+									Next[channel] = 0;
+
+									while (Events[channel][Next[channel]].Address != e.Value)
+										Next[channel]++;
+								}
+								break;
+
+							case Song.EventType.LoopInfinite:
+								Next[channel] = 0;
+
+								while (Events[channel][Next[channel]].Address != e.Value)
+									Next[channel]++;
+								break;
+
+							default:
+								Next[channel]++;
+								break;
 						}
-						else
-							Timers[channel]--;
 					}
 				}
 
 				if (!playing)
 					Stopped = true;
 				else
-					Thread.Sleep(16);
+					Thread.Sleep(10);
 			}
 
 			Midi.ControlChange(0, 123, 0);
