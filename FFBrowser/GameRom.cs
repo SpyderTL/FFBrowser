@@ -105,5 +105,18 @@ namespace FFBrowser
 		internal static int TempoAddress = 0xB359;
 		internal static int TempoCount = 6;
 		internal static int DurationCount = 16;
+
+		internal static int WorldDomainBank = 0x0B;
+		internal static int WorldDomainAddress = 0x8000;
+		internal static int WorldDomainCount = 64;
+
+		internal static int MapDomainBank = 0x0B;
+		internal static int MapDomainAddress = 0x8200;
+
+		internal static int DomainFormationCount = 8;
+
+		internal static int FormationBank = 0x0B;
+		internal static int FormationAddress = 0x8400;
+		internal static int FormationCount = 128;
 	}
 }

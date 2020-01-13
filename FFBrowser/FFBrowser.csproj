@@ -55,6 +55,8 @@
     </Compile>
     <Compile Include="Midi.cs" />
     <Compile Include="PlayerForm.cs" />
+    <Compile Include="RomDomains.cs" />
+    <Compile Include="RomFormations.cs" />
     <Compile Include="RomSongs.cs" />
     <Compile Include="RomLogic.cs" />
     <Compile Include="RomMagic.cs" />

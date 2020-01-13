@@ -141,6 +141,7 @@ namespace FFBrowser
 		public static MagicData[] Magic = new MagicData[0x5C];
 		public static EnemyData[] Enemies = new EnemyData[0x80];
 		public static LogicData[] Logic = new LogicData[0x80];
+		public static FormationData[] Formations = new FormationData[0x80];
 
 		public struct WeaponData
 		{
@@ -280,6 +281,37 @@ namespace FFBrowser
 			public int Special;
 			public int[] MagicOptions;
 			public int[] SpecialOptions;
+		}
+
+		public struct FormationData
+		{
+			public int BattleType;
+			public int Pattern;
+			public int EnemyGraphics1;
+			public int EnemyGraphics2;
+			public int EnemyGraphics3;
+			public int EnemyGraphics4;
+			public int Enemy1;
+			public int Enemy2;
+			public int Enemy3;
+			public int Enemy4;
+			public int EnemyMinimum1;
+			public int EnemyMaximum1;
+			public int EnemyMinimum2;
+			public int EnemyMaximum2;
+			public int EnemyMinimum3;
+			public int EnemyMaximum3;
+			public int EnemyMinimum4;
+			public int EnemyMaximum4;
+			public int Palette1;
+			public int Palette2;
+			public int Surprise;
+			public int EnemyPalette;
+			public bool NoRun;
+			public int AlternateEnemyMinimum1;
+			public int AlternateEnemyMaximum1;
+			public int AlternateEnemyMinimum2;
+			public int AlternateEnemyMaximum2;
 		}
 	}
 }

@@ -176,6 +176,20 @@ namespace FFBrowser
 
 			root.Nodes.Add(logicNode);
 
+			// Load Formations
+			RomFormations.Load();
+
+			var formations = Node("Formations", null);
+
+			for (int formation = 0; formation < GameRom.FormationCount; formation++)
+			{
+				var data = Game.Formations[formation];
+
+				formations.Nodes.Add(Node(formation.ToString("X2"), new { data.Enemy1, data.EnemyMinimum1, data.EnemyMaximum1, data.Enemy2, data.EnemyMinimum2, data.EnemyMaximum2,data.Enemy3, data.EnemyMinimum3, data.EnemyMaximum3, data.Enemy4, data.EnemyMinimum4,data.EnemyMaximum4, data.AlternateEnemyMinimum1, data.AlternateEnemyMaximum1, data.AlternateEnemyMinimum2, data.AlternateEnemyMaximum2 }));
+			}
+
+			root.Nodes.Add(formations);
+
 			// Load Dialogs
 			RomDialogs.Load();
 
@@ -307,6 +321,27 @@ namespace FFBrowser
 				}
 
 				e.Node.Nodes.Add(portals);
+
+				// Load Domains
+				RomDomains.LoadWorld();
+
+				var domains = Node("Domains", null);
+
+				for (int domain = 0; domain < World.Domains.GetLength(0); domain++)
+				{
+					var node = Node(domain.ToString("X2"), null);
+
+					for (int formation = 0; formation < World.Domains.GetLength(1); formation++)
+					{
+						var node2 = Node(formation.ToString("X2") + ": " + World.Domains[domain, formation].Formation.ToString("X2"), null);
+
+						node.Nodes.Add(node2);
+					}
+
+					domains.Nodes.Add(node);
+				}
+
+				e.Node.Nodes.Add(domains);
 			}
 			else if (e.Node.Tag is MapNode map)
 			{
@@ -333,6 +368,17 @@ namespace FFBrowser
 				}
 
 				e.Node.Nodes.Add(objects);
+
+				RomDomains.LoadMap(((MapNode)e.Node.Tag).Map);
+
+				var formations = Node("Formations", null);
+
+				for (var formation = 0; formation < Map.Formations.Length; formation++)
+				{
+					formations.Nodes.Add(Node(formation.ToString("X2") + ": " + Map.Formations[formation].Formation.ToString("X2"), null));
+				}
+
+				e.Node.Nodes.Add(formations);
 			}
 			else if (e.Node.Tag is TilesetNode tileset)
 			{

@@ -5,6 +5,7 @@
 		public static Segment[][] Rows;
 		public static Tile[] Tiles = new Tile[128];
 		public static Portal[] Portals = new Portal[32];
+		public static DomainFormation[,] Domains = new DomainFormation[64, 8];
 
 		public struct Segment
 		{
@@ -35,6 +36,12 @@
 			public int Map;
 			public int X;
 			public int Y;
+		}
+
+		public struct DomainFormation
+		{
+			public int Formation;
+			public bool Alternate;
 		}
 	}
 }

@@ -8,6 +8,7 @@
 		public static Portal[] Portals = new Portal[64];
 		public static Exit[] Exits = new Exit[16];
 		public static int[] Treasure = new int[256];
+		public static MapFormation[] Formations = new MapFormation[8];
 
 		public struct Segment
 		{
@@ -71,6 +72,12 @@
 		{
 			public int X;
 			public int Y;
+		}
+
+		public struct MapFormation
+		{
+			public int Formation;
+			public bool Alternate;
 		}
 	}
 }
