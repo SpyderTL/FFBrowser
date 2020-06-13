@@ -84,7 +84,9 @@ namespace FFBrowser
 
 		internal static int MagicBank = 0x0C;
 		internal static int MagicAddress = 0x81E0;
-		internal static int MagicCount = 0x40;
+		internal static int SpellCount = 0x40;
+		internal static int PotionCount = 0x02;
+		internal static int AbilityCount = 0x1A;
 
 		internal static int EnemyBank = 0x0C;
 		internal static int EnemyAddress = 0x8520;

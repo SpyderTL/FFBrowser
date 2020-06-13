@@ -143,14 +143,32 @@ namespace FFBrowser
 			// Load Magic
 			RomMagic.Load();
 
-			var magicNode = Node("Magic", null);
+			var spells = Node("Spells", null);
 
-			for (int magic = 0; magic < GameRom.MagicCount; magic++)
+			for (int spell = 0; spell < GameRom.SpellCount; spell++)
 			{
-				magicNode.Nodes.Add(Node(magic.ToString("X2") + ": " + Game.Items[magic + 0xB0], new { Magic = magic, Name = Game.Items[magic + 0xB0], Game.Magic[magic].Hit, Game.Magic[magic].Value, Game.Magic[magic].Elements, Game.Magic[magic].Target, Game.Magic[magic].Effect, Game.Magic[magic].EffectElements, Game.Magic[magic].EffectStatus, Game.Magic[magic].Graphic, Game.Magic[magic].Palette, Game.Magic[magic].Reserved }));
+				spells.Nodes.Add(Node(spell.ToString("X2") + ": " + Game.Items[spell + 0xB0], new { Spell = spell, Name = Game.Items[spell + 0xB0], Game.Spells[spell].Hit, Game.Spells[spell].Value, Game.Spells[spell].Elements, Game.Spells[spell].Target, Game.Spells[spell].Effect, Game.Spells[spell].EffectElements, Game.Spells[spell].EffectStatus, Game.Spells[spell].Graphic, Game.Spells[spell].Palette, Game.Spells[spell].Reserved }));
 			}
 
-			root.Nodes.Add(magicNode);
+			root.Nodes.Add(spells);
+
+			var potions = Node("Potions", null);
+
+			for (int potion = 0; potion < GameRom.PotionCount; potion++)
+			{
+				potions.Nodes.Add(Node(potion.ToString("X2") + ": " + Game.Items[potion + 0x19], new { Potion = potion, Name = Game.Items[potion + 0x19], Game.Potions[potion].Hit, Game.Potions[potion].Value, Game.Potions[potion].Elements, Game.Potions[potion].Target, Game.Potions[potion].Effect, Game.Potions[potion].EffectElements, Game.Potions[potion].EffectStatus, Game.Potions[potion].Graphic, Game.Potions[potion].Palette, Game.Potions[potion].Reserved }));
+			}
+
+			root.Nodes.Add(potions);
+
+			var abilities = Node("Abilities", null);
+
+			for (int ability = 0; ability < GameRom.AbilityCount; ability++)
+			{
+				abilities.Nodes.Add(Node(ability.ToString("X2"), new { Ability = ability, Game.Abilities[ability].Hit, Game.Abilities[ability].Value, Game.Abilities[ability].Elements, Game.Abilities[ability].Target, Game.Abilities[ability].Effect, Game.Abilities[ability].EffectElements, Game.Abilities[ability].EffectStatus, Game.Abilities[ability].Graphic, Game.Abilities[ability].Palette, Game.Abilities[ability].Reserved }));
+			}
+
+			root.Nodes.Add(abilities);
 
 			// Load Enemies
 			RomEnemies.Load();

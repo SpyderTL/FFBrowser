@@ -138,7 +138,9 @@ namespace FFBrowser
 		public static string[] Dialogs = new string[256];
 		public static WeaponData[] Weapons = new WeaponData[40];
 		public static ArmorData[] Armor = new ArmorData[40];
-		public static MagicData[] Magic = new MagicData[0x5C];
+		public static MagicData[] Spells = new MagicData[0x40];
+		public static MagicData[] Potions = new MagicData[0x02];
+		public static MagicData[] Abilities = new MagicData[0x1A];
 		public static EnemyData[] Enemies = new EnemyData[0x80];
 		public static LogicData[] Logic = new LogicData[0x80];
 		public static FormationData[] Formations = new FormationData[0x80];
