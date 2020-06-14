@@ -47,14 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapFile.cs" />
+    <Compile Include="BitmapImage.cs" />
     <Compile Include="BrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Image.cs" />
     <Compile Include="Midi.cs" />
     <Compile Include="PlayerForm.cs" />
+    <Compile Include="RomCharacters.cs" />
     <Compile Include="RomDomains.cs" />
     <Compile Include="RomFormations.cs" />
     <Compile Include="RomSongs.cs" />
@@ -63,6 +67,7 @@
     <Compile Include="RomEnemies.cs" />
     <Compile Include="RomDialogs.cs" />
     <Compile Include="RomArmor.cs" />
+    <Compile Include="RomClasses.cs" />
     <Compile Include="RomWeapons.cs" />
     <Compile Include="RomPortals.cs" />
     <Compile Include="RomTiles.cs" />

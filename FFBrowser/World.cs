@@ -6,6 +6,8 @@
 		public static Tile[] Tiles = new Tile[128];
 		public static Portal[] Portals = new Portal[32];
 		public static DomainFormation[,] Domains = new DomainFormation[64, 8];
+		public static byte[][] Characters = new byte[256][];
+		public static byte[][][] BackgroundCharacters = new byte[16][][];
 
 		public struct Segment
 		{
@@ -21,6 +23,7 @@
 			public bool Teleport;
 			public bool Battle;
 			public int Value;
+			public byte Background;
 		}
 
 		public enum TileType

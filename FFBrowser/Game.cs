@@ -144,6 +144,8 @@ namespace FFBrowser
 		public static EnemyData[] Enemies = new EnemyData[0x80];
 		public static LogicData[] Logic = new LogicData[0x80];
 		public static FormationData[] Formations = new FormationData[0x80];
+		public static ClassData[] Classes = new ClassData[6];
+		public static byte[][] FontCharacters;
 
 		public struct WeaponData
 		{
@@ -314,6 +316,22 @@ namespace FFBrowser
 			public int AlternateEnemyMaximum1;
 			public int AlternateEnemyMinimum2;
 			public int AlternateEnemyMaximum2;
+		}
+
+		public struct ClassData
+		{
+			public int ID;
+			public int Health;
+			public int Strength;
+			public int Agility;
+			public int Intelligence;
+			public int Vitality;
+			public int Luck;
+			public int Damage;
+			public int Hit;
+			public int Evade;
+			public int MagicDefense;
+			public byte[][] Characters;
 		}
 	}
 }

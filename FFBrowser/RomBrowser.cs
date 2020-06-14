@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -253,6 +254,103 @@ namespace FFBrowser
 
 			root.Nodes.Add(songs);
 
+			// Load Classes
+			RomClasses.Load();
+
+			var classes = Node("Classes", null);
+
+			for (int @class = 0; @class < GameRom.ClassCount; @class++)
+			{
+				var classNode = Node(@class.ToString("X2"), new ClassNode { ID = Game.Classes[@class].ID, Health = Game.Classes[@class].Health });
+
+				classes.Nodes.Add(classNode);
+			}
+
+			root.Nodes.Add(classes);
+
+			// Load Characters
+			RomCharacters.Load();
+
+			// Export Font Characters
+			Image.Colors = new Color[]
+			{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+			};
+
+			Image.Width = 8;
+			Image.Height = 8;
+
+			for (var character = 0; character < Game.FontCharacters.Length; character++)
+			{
+				Image.Values = Game.FontCharacters[character];
+
+				BitmapImage.SaveImage();
+
+				BitmapFile.Save("character_" + character + ".bmp");
+			}
+
+			// Export World Characters
+			for (var character = 0; character < World.Characters.Length; character++)
+			{
+				Image.Values = World.Characters[character];
+
+				BitmapImage.SaveImage();
+
+				BitmapFile.Save("world_" + character + ".bmp");
+			}
+
+			// Export Class Characters
+			for (var @class = 0; @class < Game.Classes.Length; @class++)
+			{
+				for (var character = 0; character < Game.Classes[@class].Characters.Length; character++)
+				{
+					Image.Values = Game.Classes[@class].Characters[character];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("class_" + @class + "_character_" + character + ".bmp");
+				}
+			}
+
+			// Export Background Characters
+			for (var background = 0; background < World.BackgroundCharacters.Length; background++)
+			{
+				for (var character = 0; character < World.BackgroundCharacters[background].Length; character++)
+				{
+					Image.Values = World.BackgroundCharacters[background][character];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("background_" + background + "_character_" + character + ".bmp");
+				}
+			}
+
+			//var characters = Node("Characters", null);
+
+			//for (int character = 0; character < GameRom.ClassCount; character++)
+			//{
+			//	var characterNode = Node(character.ToString("X2"), new CharacterNode { ID = Game.Classes[character].ID, Health = Game.Classes[character].Health });
+
+			//	characters.Nodes.Add(characterNode);
+			//}
+
+			//root.Nodes.Add(characters);
+
 			Form.TreeView.Nodes.Add(root);
 
 			Form.TreeView.AfterSelect += TreeView_AfterSelect;
@@ -321,7 +419,7 @@ namespace FFBrowser
 				{
 					var tile2 = World.Tiles[tile];
 
-					tiles.Nodes.Add(Node(tile.ToString("X2") + " " + (tile2.Forest ? "Forest" : "Open"), new WorldTileNode { Tile = tile, Forest = tile2.Forest, Dock = tile2.Dock, Type = tile2.Type, Teleport = tile2.Teleport, Battle = tile2.Battle, Value = tile2.Value }));
+					tiles.Nodes.Add(Node(tile.ToString("X2") + " " + (tile2.Forest ? "Forest" : "Open"), new WorldTileNode { Tile = tile, Forest = tile2.Forest, Dock = tile2.Dock, Type = tile2.Type, Teleport = tile2.Teleport, Battle = tile2.Battle, Value = tile2.Value, Background = tile2.Background }));
 				}
 
 				e.Node.Nodes.Add(tiles);
@@ -408,6 +506,41 @@ namespace FFBrowser
 				{
 					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value }));
 				}
+
+				// Export characters
+				RomCharacters.LoadTileset(tileset.Tileset);
+
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 8;
+				Image.Height = 8;
+
+				for (var character = 0; character < Map.Characters.Length; character++)
+				{
+					Image.Values = Map.Characters[character];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("tileset_" + tileset.Tileset + "_" + character + ".bmp");
+				}
 			}
 			else if (e.Node.Tag is SongNode song)
 			{
@@ -476,6 +609,7 @@ namespace FFBrowser
 			public bool Teleport { get; set; }
 			public bool Battle { get; set; }
 			public int Value { get; set; }
+			public byte Background { get; set; }
 		}
 
 		private class PortalNode
@@ -569,6 +703,12 @@ namespace FFBrowser
 			{
 				Disposed?.Invoke(this, new EventArgs());
 			}
+		}
+
+		private class ClassNode
+		{
+			public int ID { get; set; }
+			public int Health { get; set; }
 		}
 	}
 }

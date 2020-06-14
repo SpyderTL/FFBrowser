@@ -31,6 +31,13 @@ namespace FFBrowser
 						Value = value2 & 0x3f
 					};
 				}
+
+				reader.Seek(GameRom.WorldTileBackgroundBank, GameRom.WorldTileBackgroundAddress);
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					World.Tiles[tile].Background = reader.ReadByte();
+				}
 			}
 		}
 

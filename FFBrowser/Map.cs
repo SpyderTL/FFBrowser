@@ -9,6 +9,7 @@
 		public static Exit[] Exits = new Exit[16];
 		public static int[] Treasure = new int[256];
 		public static MapFormation[] Formations = new MapFormation[8];
+		public static byte[][] Characters = new byte[128][];
 
 		public struct Segment
 		{
