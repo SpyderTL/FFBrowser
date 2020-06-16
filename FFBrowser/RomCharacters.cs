@@ -11,16 +11,16 @@ namespace FFBrowser
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))
 			{
-				reader.Seek(GameRom.CharacterBank, GameRom.CharacterAddress);
+				reader.Seek(GameRom.FontCharacterBank, GameRom.FontCharacterAddress);
 
 				// 1 bits per pixel
 				// 1 byte per row
 				// 8 rows per plane
 				// 2 planes per character
 
-				Game.FontCharacters = new byte[GameRom.CharacterCount][];
+				Game.FontCharacters = new byte[GameRom.FontCharacterCount][];
 
-				for (var character = 0; character < GameRom.CharacterCount; character++)
+				for (var character = 0; character < GameRom.FontCharacterCount; character++)
 				{
 					var values = new byte[64];
 

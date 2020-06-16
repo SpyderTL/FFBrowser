@@ -116,9 +116,9 @@ namespace FFBrowser
 				{
 					if (entry < Palette.Length)
 					{
-						writer.Write(Palette[entry].R);
-						writer.Write(Palette[entry].G);
 						writer.Write(Palette[entry].B);
+						writer.Write(Palette[entry].G);
+						writer.Write(Palette[entry].R);
 						writer.Write(Palette[entry].A);
 					}
 					else

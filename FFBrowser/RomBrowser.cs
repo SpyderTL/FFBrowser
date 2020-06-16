@@ -268,6 +268,20 @@ namespace FFBrowser
 
 			root.Nodes.Add(classes);
 
+			// Load Palettes
+			RomPalettes.LoadBattlePalettes();
+
+			var palettes = Node("Palettes", null);
+
+			for (int palette = 0; palette < GameRom.SpritePaletteCount; palette++)
+			{
+				var paletteNode = Node(palette.ToString("X2"), new { Values = Game.BattlePalettes[palette], Colors = Game.BattlePalettes[palette].Select(x => Video.Palette[x]).ToArray() });
+
+				palettes.Nodes.Add(paletteNode);
+			}
+
+			root.Nodes.Add(palettes);
+
 			// Load Characters
 			RomCharacters.Load();
 
@@ -314,19 +328,6 @@ namespace FFBrowser
 				BitmapFile.Save("world_" + character + ".bmp");
 			}
 
-			// Export Class Characters
-			for (var @class = 0; @class < Game.Classes.Length; @class++)
-			{
-				for (var character = 0; character < Game.Classes[@class].Characters.Length; character++)
-				{
-					Image.Values = Game.Classes[@class].Characters[character];
-
-					BitmapImage.SaveImage();
-
-					BitmapFile.Save("class_" + @class + "_character_" + character + ".bmp");
-				}
-			}
-
 			// Export Background Characters
 			for (var background = 0; background < World.BackgroundCharacters.Length; background++)
 			{
@@ -340,16 +341,23 @@ namespace FFBrowser
 				}
 			}
 
-			//var characters = Node("Characters", null);
+			// Export Class Characters
+			for (var @class = 0; @class < Game.Classes.Length; @class++)
+			{
+				Image.Colors[0] = Video.Palette[Game.BattlePalettes[Game.Classes[@class].Palette][0]];
+				Image.Colors[1] = Video.Palette[Game.BattlePalettes[Game.Classes[@class].Palette][1]];
+				Image.Colors[2] = Video.Palette[Game.BattlePalettes[Game.Classes[@class].Palette][2]];
+				Image.Colors[3] = Video.Palette[Game.BattlePalettes[Game.Classes[@class].Palette][3]];
 
-			//for (int character = 0; character < GameRom.ClassCount; character++)
-			//{
-			//	var characterNode = Node(character.ToString("X2"), new CharacterNode { ID = Game.Classes[character].ID, Health = Game.Classes[character].Health });
+				for (var character = 0; character < Game.Classes[@class].Characters.Length; character++)
+				{
+					Image.Values = Game.Classes[@class].Characters[character];
 
-			//	characters.Nodes.Add(characterNode);
-			//}
+					BitmapImage.SaveImage();
 
-			//root.Nodes.Add(characters);
+					BitmapFile.Save("class_" + @class + "_character_" + character + ".bmp");
+				}
+			}
 
 			Form.TreeView.Nodes.Add(root);
 

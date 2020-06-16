@@ -52,6 +52,10 @@ namespace FFBrowser
 		internal static int WorldTileBackgroundBank = 0;
 		internal static int WorldTileBackgroundAddress = 0xB300;
 
+		internal static int BackgroundPaletteBank = 0;
+		internal static int BackgroundPaletteAddress = 0xB200;
+		internal static int BackgroundPaletteCount = 64;
+
 		internal static int MapExitXAddress = 0xAC60;
 		internal static int MapExitYAddress = 0xAC70;
 		internal static int MapExitCount = 0x10;
@@ -128,9 +132,9 @@ namespace FFBrowser
 		internal static int ClassAddress = 0xb040;
 		internal static int ClassCount = 6;
 
-		internal static int CharacterBank = 0x09;
-		internal static int CharacterAddress = 0x8800;
-		internal static int CharacterCount = 128;
+		internal static int FontCharacterBank = 0x09;
+		internal static int FontCharacterAddress = 0x8800;
+		internal static int FontCharacterCount = 128;
 
 		internal static int WorldCharacterBank = 0x02;
 		internal static int WorldCharacterAddress = 0x8000;
@@ -144,9 +148,17 @@ namespace FFBrowser
 		internal static int ClassCharacterAddress = 0x9000;
 		internal static int ClassCharacterCount = 32;
 
+		internal static int ClassPaletteBank = 0x1f;
+		internal static int ClassPaletteAddress = 0xECA4;
+		internal static int PromotedClassPaletteAddress = 0xECAA;
+
 		internal static int BackgroundCharacterBank = 0x07;
 		internal static int BackgroundCharacterBank2 = 0x08;
 		internal static int BackgroundCharacterAddress = 0x8000;
 		internal static int BackgroundCharacterCount = 128;
+
+		internal static int SpritePaletteBank = 0x1F;
+		internal static int SpritePaletteAddress = 0xEBA5;
+		internal static int SpritePaletteCount = 4;
 	}
 }

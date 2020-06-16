@@ -61,6 +61,7 @@
     <Compile Include="RomCharacters.cs" />
     <Compile Include="RomDomains.cs" />
     <Compile Include="RomFormations.cs" />
+    <Compile Include="RomPalettes.cs" />
     <Compile Include="RomSongs.cs" />
     <Compile Include="RomLogic.cs" />
     <Compile Include="RomMagic.cs" />
@@ -81,6 +82,7 @@
       <DependentUpon>SongForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SongMidi.cs" />
+    <Compile Include="Video.cs" />
     <Compile Include="World.cs" />
     <Compile Include="NesFile.cs" />
     <Compile Include="RomObjects.cs" />

@@ -16,7 +16,12 @@ namespace FFBrowser
 
 		public long Seek(int bank, int address)
 		{
-			var position = (bank * 0x4000) + address - 0x8000;
+			long position;
+			
+			if (bank == 0x1F)
+				position = 0x30000 | address;
+			else
+				position = (bank * 0x4000) + address - 0x8000;
 
 			return BaseStream.Seek(position, SeekOrigin.Begin);
 		}

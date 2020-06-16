@@ -133,6 +133,38 @@ namespace FFBrowser
 			BlackOrb = 202
 		}
 
+		public static byte[] BlueDialogPalette = new byte[]
+		{
+			0x0f,
+			0x00,
+			0x01,
+			0x30
+		};
+
+		public static byte[] BlackDialogPalette = new byte[]
+		{
+			0x0f,
+			0x00,
+			0x0f,
+			0x30
+		};
+
+		public static byte[] PurpleDialogPalette = new byte[]
+		{
+			0x0f,
+			0x00,
+			0x04,
+			0x30
+		};
+
+		public static byte[] GreenDialogPalette = new byte[]
+		{
+			0x0f,
+			0x00,
+			0x0a,
+			0x30
+		};
+
 		public static int[][] ObjectDialogs = new int[208][];
 		public static string[] Items = new string[256];
 		public static string[] Dialogs = new string[256];
@@ -146,6 +178,8 @@ namespace FFBrowser
 		public static FormationData[] Formations = new FormationData[0x80];
 		public static ClassData[] Classes = new ClassData[6];
 		public static byte[][] FontCharacters;
+		public static byte[][] BattlePalettes = new byte[4][];
+		public static byte[][] BackgroundPalettes = new byte[64][];
 
 		public struct WeaponData
 		{
@@ -332,6 +366,8 @@ namespace FFBrowser
 			public int Evade;
 			public int MagicDefense;
 			public byte[][] Characters;
+			public byte Palette;
+			public byte PromotedPalette;
 		}
 	}
 }
