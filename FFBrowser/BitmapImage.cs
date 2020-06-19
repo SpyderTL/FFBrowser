@@ -56,6 +56,10 @@ namespace FFBrowser
 					case 16:
 						SaveImage4Bpp();
 						break;
+
+					default:
+						SaveImage8Bpp();
+						break;
 				}
 			}
 		}
@@ -72,6 +76,13 @@ namespace FFBrowser
 			BitmapFile.BitsPerPixel = 4;
 			BitmapFile.Palette = Image.Colors;
 			BitmapFile.PixelData = Enumerable.Range(0, Image.Values.Length >> 1).Select(x => (byte)((Image.Values[(x * 2) + 0] << 4) | (Image.Values[(x * 2) + 1] << 0))).ToArray();
+		}
+
+		private static void SaveImage8Bpp()
+		{
+			BitmapFile.BitsPerPixel = 8;
+			BitmapFile.Palette = Image.Colors;
+			BitmapFile.PixelData = Image.Values;
 		}
 
 		internal static void LoadImage4Bpp()

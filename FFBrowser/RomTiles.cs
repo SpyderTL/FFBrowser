@@ -32,6 +32,42 @@ namespace FFBrowser
 					};
 				}
 
+				reader.Seek(GameRom.WorldTileBank, GameRom.WorldTileTopLeftCharacterAddress);
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					World.Tiles[tile].Characters = new byte[4];
+
+					World.Tiles[tile].Characters[0] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					World.Tiles[tile].Characters[1] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					World.Tiles[tile].Characters[2] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					World.Tiles[tile].Characters[3] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					var value = reader.ReadByte();
+
+					World.Tiles[tile].Palettes = new byte[4];
+
+					World.Tiles[tile].Palettes[0] = (byte)((value >> 0) & 0x03);
+					World.Tiles[tile].Palettes[1] = (byte)((value >> 2) & 0x03);
+					World.Tiles[tile].Palettes[2] = (byte)((value >> 4) & 0x03);
+					World.Tiles[tile].Palettes[3] = (byte)((value >> 6) & 0x03);
+				}
+
 				reader.Seek(GameRom.WorldTileBackgroundBank, GameRom.WorldTileBackgroundAddress);
 
 				for (var tile = 0; tile < World.Tiles.Length; tile++)

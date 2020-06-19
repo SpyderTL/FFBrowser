@@ -204,7 +204,7 @@ namespace FFBrowser
 			{
 				var data = Game.Formations[formation];
 
-				formations.Nodes.Add(Node(formation.ToString("X2"), new { data.Enemy1, data.EnemyMinimum1, data.EnemyMaximum1, data.Enemy2, data.EnemyMinimum2, data.EnemyMaximum2,data.Enemy3, data.EnemyMinimum3, data.EnemyMaximum3, data.Enemy4, data.EnemyMinimum4,data.EnemyMaximum4, data.AlternateEnemyMinimum1, data.AlternateEnemyMaximum1, data.AlternateEnemyMinimum2, data.AlternateEnemyMaximum2 }));
+				formations.Nodes.Add(Node(formation.ToString("X2"), new { data.Enemy1, data.EnemyMinimum1, data.EnemyMaximum1, data.Enemy2, data.EnemyMinimum2, data.EnemyMaximum2, data.Enemy3, data.EnemyMinimum3, data.EnemyMaximum3, data.Enemy4, data.EnemyMinimum4, data.EnemyMaximum4, data.AlternateEnemyMinimum1, data.AlternateEnemyMaximum1, data.AlternateEnemyMinimum2, data.AlternateEnemyMaximum2 }));
 			}
 
 			root.Nodes.Add(formations);
@@ -288,22 +288,22 @@ namespace FFBrowser
 			// Export Font Characters
 			Image.Colors = new Color[]
 			{
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(85, 85, 85),
-					Color.FromArgb(170, 170, 170),
-					Color.FromArgb(255, 255, 255),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0)
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(85, 85, 85),
+				Color.FromArgb(170, 170, 170),
+				Color.FromArgb(255, 255, 255),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0),
+				Color.FromArgb(0, 0, 0)
 			};
 
 			Image.Width = 8;
@@ -311,34 +311,16 @@ namespace FFBrowser
 
 			for (var character = 0; character < Game.FontCharacters.Length; character++)
 			{
+				Image.Colors[0] = Video.Palette[Game.BlueDialogPalette[0]];
+				Image.Colors[1] = Video.Palette[Game.BlueDialogPalette[1]];
+				Image.Colors[2] = Video.Palette[Game.BlueDialogPalette[2]];
+				Image.Colors[3] = Video.Palette[Game.BlueDialogPalette[3]];
+
 				Image.Values = Game.FontCharacters[character];
 
 				BitmapImage.SaveImage();
 
 				BitmapFile.Save("character_" + character + ".bmp");
-			}
-
-			// Export World Characters
-			for (var character = 0; character < World.Characters.Length; character++)
-			{
-				Image.Values = World.Characters[character];
-
-				BitmapImage.SaveImage();
-
-				BitmapFile.Save("world_" + character + ".bmp");
-			}
-
-			// Export Background Characters
-			for (var background = 0; background < World.BackgroundCharacters.Length; background++)
-			{
-				for (var character = 0; character < World.BackgroundCharacters[background].Length; character++)
-				{
-					Image.Values = World.BackgroundCharacters[background][character];
-
-					BitmapImage.SaveImage();
-
-					BitmapFile.Save("background_" + background + "_character_" + character + ".bmp");
-				}
 			}
 
 			// Export Class Characters
@@ -427,7 +409,7 @@ namespace FFBrowser
 				{
 					var tile2 = World.Tiles[tile];
 
-					tiles.Nodes.Add(Node(tile.ToString("X2") + " " + (tile2.Forest ? "Forest" : "Open"), new WorldTileNode { Tile = tile, Forest = tile2.Forest, Dock = tile2.Dock, Type = tile2.Type, Teleport = tile2.Teleport, Battle = tile2.Battle, Value = tile2.Value, Background = tile2.Background }));
+					tiles.Nodes.Add(Node(tile.ToString("X2") + " " + (tile2.Forest ? "Forest" : "Open"), new WorldTileNode { Tile = tile, Forest = tile2.Forest, Dock = tile2.Dock, Type = tile2.Type, Teleport = tile2.Teleport, Battle = tile2.Battle, Value = tile2.Value, Background = tile2.Background, Characters = tile2.Characters, Palettes = tile2.Palettes }));
 				}
 
 				e.Node.Nodes.Add(tiles);
@@ -514,41 +496,6 @@ namespace FFBrowser
 				{
 					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value }));
 				}
-
-				// Export characters
-				RomCharacters.LoadTileset(tileset.Tileset);
-
-				Image.Colors = new Color[]
-				{
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(85, 85, 85),
-					Color.FromArgb(170, 170, 170),
-					Color.FromArgb(255, 255, 255),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0)
-				};
-
-				Image.Width = 8;
-				Image.Height = 8;
-
-				for (var character = 0; character < Map.Characters.Length; character++)
-				{
-					Image.Values = Map.Characters[character];
-
-					BitmapImage.SaveImage();
-
-					BitmapFile.Save("tileset_" + tileset.Tileset + "_" + character + ".bmp");
-				}
 			}
 			else if (e.Node.Tag is SongNode song)
 			{
@@ -560,7 +507,7 @@ namespace FFBrowser
 				{
 					var channelNode = Node(channel.ToString("X2"), null);
 
-					for(var note = 0; note < Song.Channels[channel].Length; note++)
+					for (var note = 0; note < Song.Channels[channel].Length; note++)
 						channelNode.Nodes.Add(Node(Song.Channels[channel][note].Address.ToString("X2"), new { Note = note, Song.Channels[channel][note].Address, Song.Channels[channel][note].Type, Song.Channels[channel][note].Value, Song.Channels[channel][note].Value2, }));
 
 					e.Node.Nodes.Add(channelNode);
@@ -585,8 +532,229 @@ namespace FFBrowser
 			public int Tileset { get; set; }
 		}
 
-		public class WorldNode
+		public class WorldNode : IMenuCommandService, ISite, IComponent
 		{
+			[Browsable(false)]
+			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Export Characters", ExportCharacters), new DesignerVerb("Export Tiles", ExportTiles), new DesignerVerb("Export Background Tiles", ExportBackgroundTiles) });
+
+			[Browsable(false)]
+			public IContainer Container => null;
+
+			[Browsable(false)]
+			public bool DesignMode => true;
+
+			[Browsable(false)]
+			public string Name { get => "World"; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public ISite Site { get => this; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public IComponent Component => this;
+
+			public event EventHandler Disposed;
+
+			private void ExportCharacters(object sender, EventArgs e)
+			{
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 8;
+				Image.Height = 8;
+
+				// Export World Characters
+				for (var character = 0; character < World.Characters.Length; character++)
+				{
+					Image.Values = World.Characters[character];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("world_" + character + ".bmp");
+				}
+			}
+
+			private void ExportTiles(object sender, EventArgs e)
+			{
+				RomTiles.LoadWorld();
+
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 8;
+				Image.Height = 8;
+
+				// Export World Tiles
+				for (var tile = 0; tile < World.Tiles.Length; tile++)
+				{
+					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 0]];
+					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 1]];
+					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 2]];
+					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 3]];
+
+					Image.Values = World.Characters[World.Tiles[tile].Characters[0]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("world_tile_" + tile + "_0.bmp");
+
+					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 0]];
+					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 1]];
+					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 2]];
+					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 3]];
+
+					Image.Values = World.Characters[World.Tiles[tile].Characters[1]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("world_tile_" + tile + "_1.bmp");
+
+					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 0]];
+					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 1]];
+					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 2]];
+					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 3]];
+
+					Image.Values = World.Characters[World.Tiles[tile].Characters[2]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("world_tile_" + tile + "_2.bmp");
+
+					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 0]];
+					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 1]];
+					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 2]];
+					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 3]];
+
+					Image.Values = World.Characters[World.Tiles[tile].Characters[3]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("world_tile_" + tile + "_3.bmp");
+				}
+			}
+
+			private void ExportBackgroundTiles(object sender, EventArgs e)
+			{
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 8;
+				Image.Height = 8;
+
+				// Export Background Characters
+				for (var background = 0; background < World.BackgroundCharacters.Length; background++)
+				{
+					Image.Colors[0] = Video.Palette[Game.BackgroundPalettes[background][0]];
+					Image.Colors[1] = Video.Palette[Game.BackgroundPalettes[background][1]];
+					Image.Colors[2] = Video.Palette[Game.BackgroundPalettes[background][2]];
+					Image.Colors[3] = Video.Palette[Game.BackgroundPalettes[background][3]];
+
+					for (var character = 0; character < World.BackgroundCharacters[background].Length; character++)
+					{
+						Image.Values = World.BackgroundCharacters[background][character];
+
+						BitmapImage.SaveImage();
+
+						BitmapFile.Save("background_" + background + "_character_" + character + ".bmp");
+					}
+				}
+			}
+
+			public void AddCommand(MenuCommand command)
+			{
+			}
+
+			public void AddVerb(DesignerVerb verb)
+			{
+			}
+
+			public MenuCommand FindCommand(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public bool GlobalInvoke(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveCommand(MenuCommand command)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveVerb(DesignerVerb verb)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void ShowContextMenu(CommandID menuID, int x, int y)
+			{
+				throw new NotImplementedException();
+			}
+
+			public object GetService(Type serviceType)
+			{
+				if (serviceType == typeof(IMenuCommandService))
+					return this;
+
+				return null;
+			}
+
+			public void Dispose()
+			{
+				Disposed?.Invoke(this, new EventArgs());
+			}
 		}
 
 		private class ObjectNode
@@ -618,6 +786,8 @@ namespace FFBrowser
 			public bool Battle { get; set; }
 			public int Value { get; set; }
 			public byte Background { get; set; }
+			public byte[] Characters { get; set; }
+			public byte[] Palettes { get; set; }
 		}
 
 		private class PortalNode
@@ -628,9 +798,113 @@ namespace FFBrowser
 			public int Y { get; set; }
 		}
 
-		private class TilesetNode
+		private class TilesetNode : IMenuCommandService, ISite, IComponent
 		{
 			public int Tileset { get; set; }
+
+			[Browsable(false)]
+			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Export", Export) });
+
+			[Browsable(false)]
+			public IContainer Container => null;
+
+			[Browsable(false)]
+			public bool DesignMode => true;
+
+			[Browsable(false)]
+			public string Name { get => "Tileset"; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public ISite Site { get => this; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public IComponent Component => this;
+
+			public event EventHandler Disposed;
+
+			private void Export(object sender, EventArgs e)
+			{
+				// Export characters
+				RomCharacters.LoadTileset(Tileset);
+
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 8;
+				Image.Height = 8;
+
+				for (var character = 0; character < Map.Characters.Length; character++)
+				{
+					Image.Values = Map.Characters[character];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("tileset_" + Tileset + "_" + character + ".bmp");
+				}
+			}
+
+			public void AddCommand(MenuCommand command)
+			{
+			}
+
+			public void AddVerb(DesignerVerb verb)
+			{
+			}
+
+			public MenuCommand FindCommand(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public bool GlobalInvoke(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveCommand(MenuCommand command)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveVerb(DesignerVerb verb)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void ShowContextMenu(CommandID menuID, int x, int y)
+			{
+				throw new NotImplementedException();
+			}
+
+			public object GetService(Type serviceType)
+			{
+				if (serviceType == typeof(IMenuCommandService))
+					return this;
+
+				return null;
+			}
+
+			public void Dispose()
+			{
+				Disposed?.Invoke(this, new EventArgs());
+			}
 		}
 
 		private class SongNode : IMenuCommandService, ISite, IComponent
@@ -701,7 +975,7 @@ namespace FFBrowser
 
 			public object GetService(Type serviceType)
 			{
-				if(serviceType == typeof(IMenuCommandService))
+				if (serviceType == typeof(IMenuCommandService))
 					return this;
 
 				return null;

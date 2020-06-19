@@ -8,6 +8,7 @@
 		public static DomainFormation[,] Domains = new DomainFormation[64, 8];
 		public static byte[][] Characters = new byte[256][];
 		public static byte[][][] BackgroundCharacters = new byte[16][][];
+		public static byte[] Palette = new byte[0x30];
 
 		public struct Segment
 		{
@@ -24,6 +25,8 @@
 			public bool Battle;
 			public int Value;
 			public byte Background;
+			internal byte[] Characters;
+			internal byte[] Palettes;
 		}
 
 		public enum TileType

@@ -37,6 +37,25 @@ namespace FFBrowser
 				{
 					Game.Classes[@class].PromotedPalette = reader.ReadByte();
 				}
+
+				reader.Seek(GameRom.WorldPaletteBank, GameRom.WorldPaletteAddress);
+
+				for (var entry = 0; entry < GameRom.WorldPaletteCount; entry++)
+				{
+					World.Palette[entry] = reader.ReadByte();
+				}
+
+				reader.Seek(GameRom.BackgroundPaletteBank, GameRom.BackgroundPaletteAddress);
+
+				for (var background = 0; background < GameRom.BackgroundPaletteCount; background++)
+				{
+					Game.BackgroundPalettes[background] = new byte[4];
+
+					Game.BackgroundPalettes[background][0] = reader.ReadByte();
+					Game.BackgroundPalettes[background][1] = reader.ReadByte();
+					Game.BackgroundPalettes[background][2] = reader.ReadByte();
+					Game.BackgroundPalettes[background][3] = reader.ReadByte();
+				}
 			}
 		}
 	}

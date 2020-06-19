@@ -23,9 +23,31 @@ namespace FFBrowser
 
 		internal static int WorldTileBank = 0;
 		internal static int WorldTileAddress = 0x8000;
+		internal static int WorldTileCount = 128;
 		// 2 bytes per tiles
 		// 128 tiles
-		
+
+		internal static int WorldTileCharacterBank = 0;
+		internal static int WorldTileTopLeftCharacterAddress = 0x8100;
+		internal static int WorldTileTopRightCharacterAddress = 0x8180;
+		internal static int WorldTileBottomLeftCharacterAddress = 0x8200;
+		internal static int WorldTileBottomRightCharacterAddress = 0x8280;
+		internal static int WorldTilePaletteAddress = 0x8300;
+		// 2 bits per character
+		// Bottom Right			2 bits
+		// Bottom Left				2 bits
+		// Top Right					2 bits
+		// Top Left					2 bits
+
+		internal static int WorldPaletteBank = 0;
+		internal static int WorldPaletteAddress = 0x8380;
+		internal static int WorldPaletteCount = 12;
+		// 4 bytes per entry
+		// Color 0
+		// Color 1
+		// Color 2
+		// Color 3
+
 		internal static int MapTileBank = 0;
 		internal static int MapTileAddress = 0x8800;
 		// 2 bytes per tiles
