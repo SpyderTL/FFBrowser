@@ -10,6 +10,7 @@
 		public static int[] Treasure = new int[256];
 		public static MapFormation[] Formations = new MapFormation[8];
 		public static byte[][] Characters = new byte[128][];
+		public static byte[][] Palette = new byte[12][];
 
 		public struct Segment
 		{
@@ -32,6 +33,8 @@
 			public bool Battle;
 			public TeleportType TeleportType;
 			public int Value;
+			internal byte[] Characters;
+			internal byte[] Palettes;
 		}
 
 		public enum TileType

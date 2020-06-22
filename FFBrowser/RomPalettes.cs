@@ -58,5 +58,24 @@ namespace FFBrowser
 				}
 			}
 		}
+
+		internal static void LoadMapPalette(int map)
+		{
+			using (var stream = new MemoryStream(Rom.Data))
+			using (var reader = new RomReader(stream))
+			{
+				reader.Seek(GameRom.MapPaletteBank, GameRom.MapPaletteAddress + (map * GameRom.MapPaletteCount * 4));
+
+				for (var entry = 0; entry < GameRom.MapPaletteCount; entry++)
+				{
+					Map.Palette[entry] = new byte[4];
+
+					Map.Palette[entry][0] = reader.ReadByte();
+					Map.Palette[entry][1] = reader.ReadByte();
+					Map.Palette[entry][2] = reader.ReadByte();
+					Map.Palette[entry][3] = reader.ReadByte();
+				}
+			}
+		}
 	}
 }

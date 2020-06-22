@@ -48,7 +48,9 @@ namespace FFBrowser
 
 			for (int map = 0; map < Game.Maps.Length; map++)
 			{
-				var node = Folder(Game.Maps[map], new MapNode { Map = map, Bank = RomMap.MapBanks[map], Address = RomMap.MapAddresses[map], Name = Game.Maps[map], Tileset = RomMap.MapTilesets[map] });
+				RomPalettes.LoadMapPalette(map);
+
+				var node = Folder(Game.Maps[map], new MapNode { Map = map, Bank = RomMap.MapBanks[map], Address = RomMap.MapAddresses[map], MapName = Game.Maps[map], Tileset = RomMap.MapTilesets[map], Palette = Map.Palette });
 
 				maps.Nodes.Add(node);
 			}
@@ -494,7 +496,7 @@ namespace FFBrowser
 
 				for (var tile = 0; tile < Map.Tiles.Length; tile++)
 				{
-					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value }));
+					e.Node.Nodes.Add(Node(tile.ToString("X2"), new MapTileNode { Tile = tile, Battle = Map.Tiles[tile].Battle, Blocked = Map.Tiles[tile].Blocked, Teleport = Map.Tiles[tile].TeleportType, Type = Map.Tiles[tile].TileType, Value = Map.Tiles[tile].Value, Characters = Map.Tiles[tile].Characters, Palette = Map.Tiles[tile].Palettes }));
 				}
 			}
 			else if (e.Node.Tag is SongNode song)
@@ -522,14 +524,158 @@ namespace FFBrowser
 			Form.PropertyGrid.SelectedObject = e.Node.Tag;
 		}
 
-		public class MapNode
+		public class MapNode : IMenuCommandService, ISite, IComponent
 		{
 			public int Map;
-
-			public string Name { get; set; }
+			public string MapName { get; set; }
 			public int Bank { get; set; }
 			public int Address { get; set; }
 			public int Tileset { get; set; }
+			public byte[][] Palette { get; set; }
+
+			[Browsable(false)]
+			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Export", Export) });
+
+			[Browsable(false)]
+			public IContainer Container => null;
+
+			[Browsable(false)]
+			public bool DesignMode => true;
+
+			[Browsable(false)]
+			public string Name { get => "Tileset"; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public ISite Site { get => this; set => throw new NotImplementedException(); }
+
+			[Browsable(false)]
+			public IComponent Component => this;
+
+			public event EventHandler Disposed;
+
+			private void Export(object sender, EventArgs e)
+			{
+				RomTiles.LoadTileset(Tileset);
+				RomCharacters.LoadTileset(Tileset);
+				RomPalettes.LoadMapPalette(Map);
+
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 8;
+				Image.Height = 8;
+
+				// Export Map Tiles
+				for (var tile = 0; tile < FFBrowser.Map.Tiles.Length; tile++)
+				{
+					Image.Colors[0] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[0]][0]];
+					Image.Colors[1] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[0]][1]];
+					Image.Colors[2] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[0]][2]];
+					Image.Colors[3] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[0]][3]];
+
+					Image.Values = FFBrowser.Map.Characters[FFBrowser.Map.Tiles[tile].Characters[0]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("Maps/" + Game.Maps[Map] + "/map_" + Map + "_tile_" + tile + "_0.bmp");
+
+					Image.Colors[0] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[1]][0]];
+					Image.Colors[1] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[1]][1]];
+					Image.Colors[2] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[1]][2]];
+					Image.Colors[3] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[1]][3]];
+
+					Image.Values = FFBrowser.Map.Characters[FFBrowser.Map.Tiles[tile].Characters[1]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("Maps/" + Game.Maps[Map] + "/map_" + Map + "_tile_" + tile + "_1.bmp");
+
+					Image.Colors[0] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[2]][0]];
+					Image.Colors[1] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[2]][1]];
+					Image.Colors[2] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[2]][2]];
+					Image.Colors[3] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[2]][3]];
+
+					Image.Values = FFBrowser.Map.Characters[FFBrowser.Map.Tiles[tile].Characters[2]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("Maps/" + Game.Maps[Map] + "/map_" + Map + "_tile_" + tile + "_2.bmp");
+
+					Image.Colors[0] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[3]][0]];
+					Image.Colors[1] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[3]][1]];
+					Image.Colors[2] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[3]][2]];
+					Image.Colors[3] = Video.Palette[FFBrowser.Map.Palette[FFBrowser.Map.Tiles[tile].Palettes[3]][3]];
+
+					Image.Values = FFBrowser.Map.Characters[FFBrowser.Map.Tiles[tile].Characters[3]];
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("Maps/" + Game.Maps[Map] + "/map_" + Map + "_tile_" + tile + "_3.bmp");
+				}
+			}
+
+			public void AddCommand(MenuCommand command)
+			{
+			}
+
+			public void AddVerb(DesignerVerb verb)
+			{
+			}
+
+			public MenuCommand FindCommand(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public bool GlobalInvoke(CommandID commandID)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveCommand(MenuCommand command)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void RemoveVerb(DesignerVerb verb)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void ShowContextMenu(CommandID menuID, int x, int y)
+			{
+				throw new NotImplementedException();
+			}
+
+			public object GetService(Type serviceType)
+			{
+				if (serviceType == typeof(IMenuCommandService))
+					return this;
+
+				return null;
+			}
+
+			public void Dispose()
+			{
+				Disposed?.Invoke(this, new EventArgs());
+			}
 		}
 
 		public class WorldNode : IMenuCommandService, ISite, IComponent
@@ -774,6 +920,8 @@ namespace FFBrowser
 			public Map.TileType Type { get; set; }
 			public Map.TeleportType Teleport { get; set; }
 			public int Value { get; set; }
+			public byte[] Palette { get; set; }
+			public byte[] Characters { get; set; }
 		}
 
 		private class WorldTileNode
@@ -798,113 +946,9 @@ namespace FFBrowser
 			public int Y { get; set; }
 		}
 
-		private class TilesetNode : IMenuCommandService, ISite, IComponent
+		private class TilesetNode
 		{
 			public int Tileset { get; set; }
-
-			[Browsable(false)]
-			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Export", Export) });
-
-			[Browsable(false)]
-			public IContainer Container => null;
-
-			[Browsable(false)]
-			public bool DesignMode => true;
-
-			[Browsable(false)]
-			public string Name { get => "Tileset"; set => throw new NotImplementedException(); }
-
-			[Browsable(false)]
-			public ISite Site { get => this; set => throw new NotImplementedException(); }
-
-			[Browsable(false)]
-			public IComponent Component => this;
-
-			public event EventHandler Disposed;
-
-			private void Export(object sender, EventArgs e)
-			{
-				// Export characters
-				RomCharacters.LoadTileset(Tileset);
-
-				Image.Colors = new Color[]
-				{
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(85, 85, 85),
-					Color.FromArgb(170, 170, 170),
-					Color.FromArgb(255, 255, 255),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0),
-					Color.FromArgb(0, 0, 0)
-				};
-
-				Image.Width = 8;
-				Image.Height = 8;
-
-				for (var character = 0; character < Map.Characters.Length; character++)
-				{
-					Image.Values = Map.Characters[character];
-
-					BitmapImage.SaveImage();
-
-					BitmapFile.Save("tileset_" + Tileset + "_" + character + ".bmp");
-				}
-			}
-
-			public void AddCommand(MenuCommand command)
-			{
-			}
-
-			public void AddVerb(DesignerVerb verb)
-			{
-			}
-
-			public MenuCommand FindCommand(CommandID commandID)
-			{
-				throw new NotImplementedException();
-			}
-
-			public bool GlobalInvoke(CommandID commandID)
-			{
-				throw new NotImplementedException();
-			}
-
-			public void RemoveCommand(MenuCommand command)
-			{
-				throw new NotImplementedException();
-			}
-
-			public void RemoveVerb(DesignerVerb verb)
-			{
-				throw new NotImplementedException();
-			}
-
-			public void ShowContextMenu(CommandID menuID, int x, int y)
-			{
-				throw new NotImplementedException();
-			}
-
-			public object GetService(Type serviceType)
-			{
-				if (serviceType == typeof(IMenuCommandService))
-					return this;
-
-				return null;
-			}
-
-			public void Dispose()
-			{
-				Disposed?.Invoke(this, new EventArgs());
-			}
 		}
 
 		private class SongNode : IMenuCommandService, ISite, IComponent

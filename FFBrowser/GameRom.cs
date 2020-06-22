@@ -53,7 +53,17 @@ namespace FFBrowser
 		// 2 bytes per tiles
 		// 128 tiles
 
+		internal static int TilesetCharacterAddress = 0x9000;
+		// 512 bytes per tileset
+		internal static int TilesetPaletteAddress = 0x8400;
+		// 128 bytes per tileset
+
+		internal static int MapPaletteBank = 0;
+		internal static int MapPaletteAddress = 0xA000;
+		internal static int MapPaletteCount = 12;
+
 		internal static int TilesetCount = 8;
+		internal static int TilesetTileCount = 128;
 
 		internal static int WorldPortalBank = 0;
 		internal static int WorldPortalXAddress = 0xAC00;

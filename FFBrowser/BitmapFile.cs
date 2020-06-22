@@ -84,6 +84,12 @@ namespace FFBrowser
 
 		internal static void Save(string path)
 		{
+			var directory = Path.GetDirectoryName(path);
+
+			if (!string.IsNullOrWhiteSpace(directory) &&
+				!Directory.Exists(Path.GetDirectoryName(path)))
+				Directory.CreateDirectory(Path.GetDirectoryName(path));
+
 			using (var stream = File.Create(path))
 			using (var writer = new BinaryWriter(stream))
 			{

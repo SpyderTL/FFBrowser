@@ -100,6 +100,48 @@ namespace FFBrowser
 						Value = value2
 					};
 				}
+
+				reader.Seek(GameRom.MapTilesetBank, GameRom.TilesetCharacterAddress);
+
+				reader.BaseStream.Seek(tileset * 512, SeekOrigin.Current);
+
+				for (var tile = 0; tile < Map.Tiles.Length; tile++)
+				{
+					Map.Tiles[tile].Characters = new byte[4];
+
+					Map.Tiles[tile].Characters[0] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < Map.Tiles.Length; tile++)
+				{
+					Map.Tiles[tile].Characters[1] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < Map.Tiles.Length; tile++)
+				{
+					Map.Tiles[tile].Characters[2] = reader.ReadByte();
+				}
+
+				for (var tile = 0; tile < Map.Tiles.Length; tile++)
+				{
+					Map.Tiles[tile].Characters[3] = reader.ReadByte();
+				}
+
+				reader.Seek(GameRom.MapTilesetBank, GameRom.TilesetPaletteAddress);
+
+				reader.BaseStream.Seek(tileset * 128, SeekOrigin.Current);
+
+				for (var tile = 0; tile < Map.Tiles.Length; tile++)
+				{
+					var value = reader.ReadByte();
+
+					Map.Tiles[tile].Palettes = new byte[4];
+
+					Map.Tiles[tile].Palettes[0] = (byte)((value >> 0) & 0x03);
+					Map.Tiles[tile].Palettes[1] = (byte)((value >> 2) & 0x03);
+					Map.Tiles[tile].Palettes[2] = (byte)((value >> 4) & 0x03);
+					Map.Tiles[tile].Palettes[3] = (byte)((value >> 6) & 0x03);
+				}
 			}
 		}
 	}
