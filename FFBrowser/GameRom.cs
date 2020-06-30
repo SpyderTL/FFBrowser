@@ -168,6 +168,10 @@ namespace FFBrowser
 		internal static int FontCharacterAddress = 0x8800;
 		internal static int FontCharacterCount = 128;
 
+		internal static int ShopCharacterBank = 0x09;
+		internal static int ShopCharacterAddress = 0x8000;
+		internal static int ShopCharacterCount = 128;
+
 		internal static int WorldCharacterBank = 0x02;
 		internal static int WorldCharacterAddress = 0x8000;
 		internal static int WorldCharacterCount = 256;
@@ -183,6 +187,10 @@ namespace FFBrowser
 		internal static int ClassPaletteBank = 0x1f;
 		internal static int ClassPaletteAddress = 0xECA4;
 		internal static int PromotedClassPaletteAddress = 0xECAA;
+
+		internal static int PointerCharacterBank = 0x09;
+		internal static int PointerCharacterAddress = 0xA800;
+		internal static int PointerCharacterCount = 128;
 
 		internal static int BackgroundCharacterBank = 0x07;
 		internal static int BackgroundCharacterBank2 = 0x08;

@@ -178,6 +178,7 @@ namespace FFBrowser
 		public static FormationData[] Formations = new FormationData[0x80];
 		public static ClassData[] Classes = new ClassData[6];
 		public static byte[][] FontCharacters;
+		public static byte[][] BattleCharacters;
 		public static byte[][] BattlePalettes = new byte[4][];
 		public static byte[][] BackgroundPalettes = new byte[64][];
 

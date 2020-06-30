@@ -75,6 +75,7 @@
     <Compile Include="RomItems.cs" />
     <Compile Include="RomTreasure.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="SongFile.cs" />
     <Compile Include="SongForm.cs">
       <SubType>Form</SubType>
     </Compile>

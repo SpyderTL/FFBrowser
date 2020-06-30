@@ -70,9 +70,9 @@ namespace FFBrowser
 
 				for (var x = 0; x < paletteEntryCount; x++)
 				{
-					int r = reader.ReadByte();
-					int g = reader.ReadByte();
 					int b = reader.ReadByte();
+					int g = reader.ReadByte();
+					int r = reader.ReadByte();
 					int a = reader.ReadByte();
 
 					Palette[x] = Color.FromArgb(a, r, g, b);

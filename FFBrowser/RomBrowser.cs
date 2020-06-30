@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -310,6 +311,20 @@ namespace FFBrowser
 
 			Image.Width = 8;
 			Image.Height = 8;
+
+			for (var character = 0; character < Game.BattleCharacters.Length; character++)
+			{
+				Image.Colors[0] = Video.Palette[Game.BattlePalettes[3][0]];
+				Image.Colors[1] = Video.Palette[Game.BattlePalettes[3][1]];
+				Image.Colors[2] = Video.Palette[Game.BattlePalettes[3][2]];
+				Image.Colors[3] = Video.Palette[Game.BattlePalettes[3][3]];
+
+				Image.Values = Game.BattleCharacters[character];
+
+				BitmapImage.SaveImage();
+
+				BitmapFile.Save("Battle/battle_" + character + ".bmp");
+			}
 
 			for (var character = 0; character < Game.FontCharacters.Length; character++)
 			{
@@ -956,7 +971,7 @@ namespace FFBrowser
 			public int Song { get; set; }
 
 			[Browsable(false)]
-			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Play", Play) });
+			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Play", Play), new DesignerVerb("Export", Export) });
 
 			[Browsable(false)]
 			public IContainer Container => null;
@@ -982,6 +997,13 @@ namespace FFBrowser
 				PlayerForm.Show();
 
 				SongMidi.Play();
+			}
+
+			private void Export(object sender, EventArgs e)
+			{
+				RomSongs.Load(Song);
+
+				SongFile.Save("Songs/song_" + Song + ".bin");
 			}
 
 			public void AddCommand(MenuCommand command)
