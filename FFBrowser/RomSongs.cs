@@ -39,18 +39,6 @@ namespace FFBrowser
 				ReadChannel(0, reader, address);
 				ReadChannel(1, reader, address2);
 				ReadChannel(2, reader, address3);
-
-				reader.Seek(GameRom.TempoBank, GameRom.TempoAddress);
-
-				for (var tempo = 0; tempo < GameRom.TempoCount; tempo++)
-				{
-					Song.Tempo[tempo] = new int[GameRom.DurationCount];
-
-					for (var duration = 0; duration < GameRom.DurationCount; duration++)
-					{
-						Song.Tempo[tempo][duration] = reader.ReadByte();
-					}
-				}
 			}
 		}
 

@@ -62,6 +62,7 @@
     <Compile Include="RomDomains.cs" />
     <Compile Include="RomFormations.cs" />
     <Compile Include="RomPalettes.cs" />
+    <Compile Include="RomTempos.cs" />
     <Compile Include="RomSongs.cs" />
     <Compile Include="RomLogic.cs" />
     <Compile Include="RomMagic.cs" />

@@ -21,7 +21,7 @@ namespace FFBrowser
 
 				var channels = new long[3];
 
-				var start = Song.Channels[0][0].Address;
+				var start = Song.Channels[0][0].Address - 6;
 
 				for (var channel = 0; channel < 3; channel++)
 				{
@@ -45,16 +45,16 @@ namespace FFBrowser
 								break;
 
 							case Song.EventType.Loop:
-								writer.Write((byte)(0xd0 & e.Value2));
+								writer.Write((byte)(0xd0 | e.Value2));
 								writer.Write((ushort)(e.Value - start));
 								break;
 
 							case Song.EventType.Octave:
-								writer.Write((byte)(0xd8 & e.Value));
+								writer.Write((byte)(0xd8 | e.Value));
 								break;
 
 							case Song.EventType.Envelope:
-								writer.Write((byte)(0xe0 & e.Value));
+								writer.Write((byte)(0xe0 | e.Value));
 								break;
 
 							case Song.EventType.EnvelopeSpeed:
@@ -63,7 +63,7 @@ namespace FFBrowser
 								break;
 
 							case Song.EventType.Tempo:
-								writer.Write((byte)(0xf8 & e.Value));
+								writer.Write((byte)(0xf8 | e.Value));
 								break;
 
 							case Song.EventType.End:

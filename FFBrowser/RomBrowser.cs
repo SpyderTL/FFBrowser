@@ -257,6 +257,27 @@ namespace FFBrowser
 
 			root.Nodes.Add(songs);
 
+			// Load Tempo
+			RomTempos.Load();
+
+			var tempos = Node("Tempos", null);
+
+			for (int tempo = 0; tempo < GameRom.TempoCount; tempo++)
+			{
+				var tempoNode = Node(tempo.ToString("X2"), null);
+
+				for (int duration = 0; duration < GameRom.DurationCount; duration++)
+				{
+					var durationNode = Node(duration.ToString("X2") + ": " +  Song.Tempo[tempo][duration].ToString(), null);
+
+					tempoNode.Nodes.Add(durationNode);
+				}
+
+				tempos.Nodes.Add(tempoNode);
+			}
+
+			root.Nodes.Add(tempos);
+
 			// Load Classes
 			RomClasses.Load();
 
