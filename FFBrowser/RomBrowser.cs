@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace FFBrowser
 {
@@ -546,7 +547,7 @@ namespace FFBrowser
 					var channelNode = Node(channel.ToString("X2"), null);
 
 					for (var note = 0; note < Song.Channels[channel].Length; note++)
-						channelNode.Nodes.Add(Node(Song.Channels[channel][note].Address.ToString("X2"), new { Note = note, Song.Channels[channel][note].Address, Song.Channels[channel][note].Type, Song.Channels[channel][note].Value, Song.Channels[channel][note].Value2, }));
+						channelNode.Nodes.Add(Node(Song.Channels[channel][note].Address.ToString("X2") + ": " + Song.Channels[channel][note].Type + "(" + Song.Channels[channel][note].Value + ", " + Song.Channels[channel][note].Value2 + ")", new { Note = note, Song.Channels[channel][note].Address, Song.Channels[channel][note].Type, Song.Channels[channel][note].Value, Song.Channels[channel][note].Value2 }));
 
 					e.Node.Nodes.Add(channelNode);
 				}
@@ -717,7 +718,14 @@ namespace FFBrowser
 		public class WorldNode : IMenuCommandService, ISite, IComponent
 		{
 			[Browsable(false)]
-			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[] { new DesignerVerb("Export Characters", ExportCharacters), new DesignerVerb("Export Tiles", ExportTiles), new DesignerVerb("Export Background Tiles", ExportBackgroundTiles) });
+			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[]
+			{
+				new DesignerVerb("Export Characters", ExportCharacters),
+				new DesignerVerb("Export Tiles", ExportTiles),
+				new DesignerVerb("Export Background Tiles", ExportBackgroundTiles),
+				new DesignerVerb("Export Rows", ExportRows),
+				new DesignerVerb("Export Tile Data", ExportTileData)
+			});
 
 			[Browsable(false)]
 			public IContainer Container => null;
@@ -889,6 +897,75 @@ namespace FFBrowser
 
 						BitmapFile.Save("background_" + background + "_character_" + character + ".bmp");
 					}
+				}
+			}
+
+			private void ExportRows(object sender, EventArgs e)
+			{
+				if(!Directory.Exists("world"))
+					Directory.CreateDirectory("world");
+
+				using (var stream = File.Create("world\\map.xml"))
+				using (var writer = XmlWriter.Create(stream))
+				{
+					writer.WriteStartElement("map");
+
+					for (var y = 0; y < World.Rows.Length; y++)
+					{
+						writer.WriteStartElement("row");
+						writer.WriteAttributeString("index", y.ToString());
+
+						for (var x = 0; x < World.Rows[y].Length; x++)
+						{
+							writer.WriteStartElement("segment");
+							writer.WriteAttributeString("tile", World.Rows[y][x].Tile.ToString());
+							writer.WriteAttributeString("count", World.Rows[y][x].Count.ToString());
+							writer.WriteEndElement();
+						}
+
+						writer.WriteEndElement();
+					}
+
+					writer.WriteEndElement();
+
+					writer.Flush();
+					writer.Close();
+				}
+			}
+
+			private void ExportTileData(object sender, EventArgs e)
+			{
+				RomTiles.LoadWorld();
+
+				if (!Directory.Exists("world"))
+					Directory.CreateDirectory("world");
+
+				using (var stream = File.Create("world\\tiles.xml"))
+				using (var writer = XmlWriter.Create(stream))
+				{
+					writer.WriteStartElement("tiles");
+
+					for (var x = 0; x < World.Tiles.Length; x++)
+					{
+						writer.WriteStartElement("tile");
+
+						writer.WriteAttributeString("index", x.ToString());
+						writer.WriteAttributeString("topLeftCharacter", World.Tiles[x].Characters[0].ToString());
+						writer.WriteAttributeString("topRightCharacter", World.Tiles[x].Characters[1].ToString());
+						writer.WriteAttributeString("bottomLeftCharacter", World.Tiles[x].Characters[2].ToString());
+						writer.WriteAttributeString("bottomRightCharacter", World.Tiles[x].Characters[3].ToString());
+						writer.WriteAttributeString("topLeftPalette", World.Tiles[x].Palettes[0].ToString());
+						writer.WriteAttributeString("topRightPalette", World.Tiles[x].Palettes[1].ToString());
+						writer.WriteAttributeString("bottomLeftPalette", World.Tiles[x].Palettes[2].ToString());
+						writer.WriteAttributeString("bottomRightPalette", World.Tiles[x].Palettes[3].ToString());
+
+						writer.WriteEndElement();
+					}
+
+					writer.WriteEndElement();
+
+					writer.Flush();
+					writer.Close();
 				}
 			}
 

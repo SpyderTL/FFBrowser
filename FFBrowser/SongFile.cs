@@ -63,7 +63,7 @@ namespace FFBrowser
 								break;
 
 							case Song.EventType.Tempo:
-								writer.Write((byte)(0xf8 | e.Value));
+								writer.Write((byte)(0xf9 + e.Value));
 								break;
 
 							case Song.EventType.End:
