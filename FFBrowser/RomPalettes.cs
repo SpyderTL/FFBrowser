@@ -40,9 +40,43 @@ namespace FFBrowser
 
 				reader.Seek(GameRom.WorldPaletteBank, GameRom.WorldPaletteAddress);
 
-				for (var entry = 0; entry < GameRom.WorldPaletteCount; entry++)
+				for (var palette = 0; palette < GameRom.WorldPaletteCount; palette++)
 				{
-					World.Palette[entry] = reader.ReadByte();
+					World.Palettes[palette] = new byte[]
+					{
+						reader.ReadByte(),
+						reader.ReadByte(),
+						reader.ReadByte(),
+						reader.ReadByte()
+					};
+
+					//Console.WriteLine("<hex>0" + (Video.Palette[World.Palettes[palette][0]].R >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][0]].G >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][0]].B >> 4).ToString("X1") + "</hex>");
+					//Console.WriteLine("<hex>0" + (Video.Palette[World.Palettes[palette][1]].R >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][1]].G >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][1]].B >> 4).ToString("X1") + "</hex>");
+					//Console.WriteLine("<hex>0" + (Video.Palette[World.Palettes[palette][2]].R >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][2]].G >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][2]].B >> 4).ToString("X1") + "</hex>");
+					//Console.WriteLine("<hex>0" + (Video.Palette[World.Palettes[palette][3]].R >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][3]].G >> 4).ToString("X1") + (Video.Palette[World.Palettes[palette][3]].B >> 4).ToString("X1") + "</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+					//Console.WriteLine("<hex>0000</hex>");
+				}
+
+				reader.Seek(GameRom.WorldPaletteBank, GameRom.WorldSpritePaletteAddress);
+
+				for (var sprite = 0; sprite < 64; sprite++)
+				{
+					World.SpritePalettes[sprite] = new byte[]
+					{
+						reader.ReadByte(),
+						reader.ReadByte()
+					};
 				}
 
 				reader.Seek(GameRom.BackgroundPaletteBank, GameRom.BackgroundPaletteAddress);

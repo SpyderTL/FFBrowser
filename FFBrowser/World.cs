@@ -7,8 +7,10 @@
 		public static Portal[] Portals = new Portal[32];
 		public static DomainFormation[,] Domains = new DomainFormation[64, 8];
 		public static byte[][] Characters = new byte[256][];
+		public static byte[][] SpriteCharacters = new byte[256][];
 		public static byte[][][] BackgroundCharacters = new byte[16][][];
-		public static byte[] Palette = new byte[0x30];
+		public static byte[][] Palettes = new byte[12][];
+		public static byte[][] SpritePalettes = new byte[64][];
 
 		public struct Segment
 		{

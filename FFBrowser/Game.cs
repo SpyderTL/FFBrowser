@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -181,6 +182,10 @@ namespace FFBrowser
 		public static byte[][] BattleCharacters;
 		public static byte[][] BattlePalettes = new byte[4][];
 		public static byte[][] BackgroundPalettes = new byte[64][];
+		public static LevelData[][] Levels = new LevelData[6][];
+
+		public const int LevelCount = 49;
+		public const int MaxLevel = 49;
 
 		public struct WeaponData
 		{
@@ -369,6 +374,46 @@ namespace FFBrowser
 			public byte[][] Characters;
 			public byte Palette;
 			public byte PromotedPalette;
+		}
+
+		public static string[] ClassNames = new string[]
+		{
+			"Fighter",
+			"Thief",
+			"Black Belt",
+			"Red Mage",
+			"White Mage",
+			"Black Mage"
+		};
+
+		public static string[] PromotedClassNames = new string[]
+		{
+			"Knight",
+			"Ninja",
+			"Master",
+			"Red Wizard",
+			"White Wizard",
+			"Black Wizard"
+		};
+
+		public struct LevelData
+		{
+			public LevelUpFlags Flags;
+
+			[Description("Bitwise mask of magic levels that increment maximum spell count at this level.")]
+			public byte MagicLevels;
+		}
+
+		[Flags]
+		public enum LevelUpFlags
+		{
+			Luck = 0x01,
+			Vitality = 0x02,
+			Intelligence = 0x04,
+			Agility = 0x08,
+			Strength = 0x10,
+			[Description("Character gets an extra 20-24 Hit Points at this level.")]
+			HitPointBonus = 0x20
 		}
 	}
 }

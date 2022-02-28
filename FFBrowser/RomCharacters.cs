@@ -66,6 +66,30 @@ namespace FFBrowser
 					World.Characters[character] = values;
 				};
 
+				reader.Seek(GameRom.WorldCharacterBank, GameRom.WorldSpriteCharacterAddress);
+
+				for (var character = 0; character < GameRom.WorldCharacterCount; character++)
+				{
+					var values = new byte[64];
+
+					var plane0 = reader.ReadBytes(8);
+					var plane1 = reader.ReadBytes(8);
+
+					for (var row = 0; row < 8; row++)
+					{
+						values[(row * 8) + 0] = (byte)(((plane0[row] >> 7) & 0x01) | (((plane1[row] >> 7) & 0x01) << 1));
+						values[(row * 8) + 1] = (byte)(((plane0[row] >> 6) & 0x01) | (((plane1[row] >> 6) & 0x01) << 1));
+						values[(row * 8) + 2] = (byte)(((plane0[row] >> 5) & 0x01) | (((plane1[row] >> 5) & 0x01) << 1));
+						values[(row * 8) + 3] = (byte)(((plane0[row] >> 4) & 0x01) | (((plane1[row] >> 4) & 0x01) << 1));
+						values[(row * 8) + 4] = (byte)(((plane0[row] >> 3) & 0x01) | (((plane1[row] >> 3) & 0x01) << 1));
+						values[(row * 8) + 5] = (byte)(((plane0[row] >> 2) & 0x01) | (((plane1[row] >> 2) & 0x01) << 1));
+						values[(row * 8) + 6] = (byte)(((plane0[row] >> 1) & 0x01) | (((plane1[row] >> 1) & 0x01) << 1));
+						values[(row * 8) + 7] = (byte)(((plane0[row] >> 0) & 0x01) | (((plane1[row] >> 0) & 0x01) << 1));
+					}
+
+					World.SpriteCharacters[character] = values;
+				};
+
 				reader.Seek(GameRom.ClassCharacterBank, GameRom.ClassCharacterAddress);
 
 				for (var @class = 0; @class < GameRom.ClassCount; @class++)

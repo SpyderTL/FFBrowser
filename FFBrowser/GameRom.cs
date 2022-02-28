@@ -62,6 +62,8 @@ namespace FFBrowser
 		internal static int MapPaletteAddress = 0xA000;
 		internal static int MapPaletteCount = 12;
 
+		internal static int WorldSpritePaletteAddress = 0x83A0;
+
 		internal static int TilesetCount = 8;
 		internal static int TilesetTileCount = 128;
 
@@ -174,6 +176,7 @@ namespace FFBrowser
 
 		internal static int WorldCharacterBank = 0x02;
 		internal static int WorldCharacterAddress = 0x8000;
+		internal static int WorldSpriteCharacterAddress = 0x9000;
 		internal static int WorldCharacterCount = 256;
 
 		internal static int MapCharacterBank = 0x03;
@@ -200,5 +203,9 @@ namespace FFBrowser
 		internal static int SpritePaletteBank = 0x1F;
 		internal static int SpritePaletteAddress = 0xEBA5;
 		internal static int SpritePaletteCount = 4;
+
+		internal static int LevelCount = 49;
+		internal static int LevelAddress = 0x9094;
+		internal static int LevelBank = 0x0B;
 	}
 }

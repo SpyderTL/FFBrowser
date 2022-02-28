@@ -269,7 +269,7 @@ namespace FFBrowser
 
 				for (int duration = 0; duration < GameRom.DurationCount; duration++)
 				{
-					var durationNode = Node(duration.ToString("X2") + ": " +  Song.Tempo[tempo][duration].ToString(), null);
+					var durationNode = Node(duration.ToString("X2") + ": " + Song.Tempo[tempo][duration].ToString(), null);
 
 					tempoNode.Nodes.Add(durationNode);
 				}
@@ -286,12 +286,52 @@ namespace FFBrowser
 
 			for (int @class = 0; @class < GameRom.ClassCount; @class++)
 			{
-				var classNode = Node(@class.ToString("X2"), new ClassNode { ID = Game.Classes[@class].ID, Health = Game.Classes[@class].Health });
+				var classNode = Node(@class.ToString("X2"), new ClassNode
+				{
+					ID = Game.Classes[@class].ID,
+					Health = Game.Classes[@class].Health,
+					Strength = Game.Classes[@class].Strength,
+					Agility = Game.Classes[@class].Agility,
+					Intelligence = Game.Classes[@class].Intelligence,
+					Vitality = Game.Classes[@class].Vitality,
+					Luck = Game.Classes[@class].Luck,
+					Damage = Game.Classes[@class].Damage,
+					Hit = Game.Classes[@class].Hit,
+					Evade = Game.Classes[@class].Evade,
+					MagicDefense = Game.Classes[@class].MagicDefense,
+					Palette = Game.Classes[@class].Palette,
+					PromotedPalette = Game.Classes[@class].PromotedPalette,
+				});
 
 				classes.Nodes.Add(classNode);
 			}
 
 			root.Nodes.Add(classes);
+
+			// Load Levels
+			RomClasses.Load();
+
+			var levels = Node("Levels", null);
+
+			for (int @class = 0; @class < GameRom.ClassCount; @class++)
+			{
+				var classNode = new TreeNode(@class.ToString("X2"));
+
+				for (int level = 0; level < GameRom.LevelCount; level++)
+				{
+					var levelNode = Node(level.ToString(), new LevelNode
+					{
+						Flags = Game.Levels[@class][level].Flags,
+						MagicLevels = Game.Levels[@class][level].MagicLevels
+					});
+
+					classNode.Nodes.Add(levelNode);
+				}
+
+				levels.Nodes.Add(classNode);
+			}
+
+			root.Nodes.Add(levels);
 
 			// Load Palettes
 			RomPalettes.LoadBattlePalettes();
@@ -721,6 +761,7 @@ namespace FFBrowser
 			public DesignerVerbCollection Verbs => new DesignerVerbCollection(new DesignerVerb[]
 			{
 				new DesignerVerb("Export Characters", ExportCharacters),
+				new DesignerVerb("Export Sprites", ExportSprites),
 				new DesignerVerb("Export Tiles", ExportTiles),
 				new DesignerVerb("Export Background Tiles", ExportBackgroundTiles),
 				new DesignerVerb("Export Rows", ExportRows),
@@ -780,6 +821,88 @@ namespace FFBrowser
 				}
 			}
 
+			private void ExportSprites(object sender, EventArgs e)
+			{
+				Image.Colors = new Color[]
+				{
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(85, 85, 85),
+					Color.FromArgb(170, 170, 170),
+					Color.FromArgb(255, 255, 255),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0),
+					Color.FromArgb(0, 0, 0)
+				};
+
+				Image.Width = 16;
+				Image.Height = 16;
+
+				// Export World Sprites
+				for (var sprite = 0; sprite < World.Characters.Length >> 2; sprite++)
+				{
+					var index = 0;
+
+					Image.Values = new byte[256];
+
+					// Top Row
+					for (var row = 0; row < 8; row++)
+					{
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 0];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 1];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 2];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 3];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 4];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 5];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 6];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 0][(row * 8) + 7];
+
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 0];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 1];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 2];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 3];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 4];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 5];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 6];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 1][(row * 8) + 7];
+					}
+
+					// Bottom Row
+					for (var row = 0; row < 8; row++)
+					{
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 0];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 1];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 2];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 3];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 4];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 5];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 6];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 2][(row * 8) + 7];
+
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 0];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 1];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 2];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 3];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 4];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 5];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 6];
+						Image.Values[index++] = World.SpriteCharacters[(sprite * 4) + 3][(row * 8) + 7];
+					}
+
+					BitmapImage.SaveImage();
+
+					BitmapFile.Save("sprite_" + sprite + ".bmp");
+				}
+			}
+
 			private void ExportTiles(object sender, EventArgs e)
 			{
 				RomTiles.LoadWorld();
@@ -810,10 +933,10 @@ namespace FFBrowser
 				// Export World Tiles
 				for (var tile = 0; tile < World.Tiles.Length; tile++)
 				{
-					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 0]];
-					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 1]];
-					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 2]];
-					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[0] << 2) + 3]];
+					Image.Colors[0] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[0]][0]];
+					Image.Colors[1] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[0]][1]];
+					Image.Colors[2] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[0]][2]];
+					Image.Colors[3] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[0]][3]];
 
 					Image.Values = World.Characters[World.Tiles[tile].Characters[0]];
 
@@ -821,10 +944,10 @@ namespace FFBrowser
 
 					BitmapFile.Save("world_tile_" + tile + "_0.bmp");
 
-					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 0]];
-					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 1]];
-					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 2]];
-					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[1] << 2) + 3]];
+					Image.Colors[0] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[1]][0]];
+					Image.Colors[1] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[1]][1]];
+					Image.Colors[2] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[1]][2]];
+					Image.Colors[3] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[1]][3]];
 
 					Image.Values = World.Characters[World.Tiles[tile].Characters[1]];
 
@@ -832,10 +955,10 @@ namespace FFBrowser
 
 					BitmapFile.Save("world_tile_" + tile + "_1.bmp");
 
-					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 0]];
-					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 1]];
-					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 2]];
-					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[2] << 2) + 3]];
+					Image.Colors[0] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[2]][0]];
+					Image.Colors[1] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[2]][1]];
+					Image.Colors[2] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[2]][2]];
+					Image.Colors[3] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[2]][3]];
 
 					Image.Values = World.Characters[World.Tiles[tile].Characters[2]];
 
@@ -843,10 +966,10 @@ namespace FFBrowser
 
 					BitmapFile.Save("world_tile_" + tile + "_2.bmp");
 
-					Image.Colors[0] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 0]];
-					Image.Colors[1] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 1]];
-					Image.Colors[2] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 2]];
-					Image.Colors[3] = Video.Palette[World.Palette[(World.Tiles[tile].Palettes[3] << 2) + 3]];
+					Image.Colors[0] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[3]][0]];
+					Image.Colors[1] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[3]][1]];
+					Image.Colors[2] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[3]][2]];
+					Image.Colors[3] = Video.Palette[World.Palettes[World.Tiles[tile].Palettes[3]][3]];
 
 					Image.Values = World.Characters[World.Tiles[tile].Characters[3]];
 
@@ -902,7 +1025,7 @@ namespace FFBrowser
 
 			private void ExportRows(object sender, EventArgs e)
 			{
-				if(!Directory.Exists("world"))
+				if (!Directory.Exists("world"))
 					Directory.CreateDirectory("world");
 
 				using (var stream = File.Create("world\\map.xml"))
@@ -1155,6 +1278,25 @@ namespace FFBrowser
 		{
 			public int ID { get; set; }
 			public int Health { get; set; }
+			public int Strength { get; set; }
+			public int Agility { get; set; }
+			public int Intelligence { get; set; }
+			public int Vitality { get; set; }
+			public int Luck { get; set; }
+			public int Damage { get; set; }
+			public int Hit { get; set; }
+			public int Evade { get; set; }
+			public int MagicDefense { get; set; }
+			public byte Palette { get; set; }
+			public byte PromotedPalette { get; set; }
+		}
+
+		private class LevelNode
+		{
+			public Game.LevelUpFlags Flags { get; set; }
+
+			[Description("Bitwise mask of magic levels that are incremented at this level.")]
+			public byte MagicLevels { get; set; }
 		}
 	}
 }

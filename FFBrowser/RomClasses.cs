@@ -28,6 +28,19 @@ namespace FFBrowser
 
 					reader.ReadBytes(5);
 				};
+
+				reader.Seek(GameRom.LevelBank, GameRom.LevelAddress);
+
+				for (var @class = 0; @class < GameRom.ClassCount; @class++)
+				{
+					Game.Levels[@class] = new Game.LevelData[49];
+
+					for (var level = 0; level < GameRom.LevelCount; level++)
+					{
+						Game.Levels[@class][level].Flags = (Game.LevelUpFlags)reader.ReadByte();
+						Game.Levels[@class][level].MagicLevels = reader.ReadByte();
+					}
+				};
 			}
 		}
 	}
