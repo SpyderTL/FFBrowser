@@ -166,7 +166,8 @@ namespace FFBrowser
 			0x30
 		};
 
-		public static int[][] ObjectDialogs = new int[208][];
+		public static int[][] ObjectParameters = new int[208][];
+		public static int[] ObjectFunctions = new int[208];
 		public static string[] Items = new string[256];
 		public static string[] Dialogs = new string[256];
 		public static WeaponData[] Weapons = new WeaponData[40];
@@ -414,6 +415,14 @@ namespace FFBrowser
 			Strength = 0x10,
 			[Description("Character gets an extra 20-24 Hit Points at this level.")]
 			HitPointBonus = 0x20
+		}
+
+		[Flags]
+		public enum ObjectFlags
+		{
+			Visible = 0x01,
+			Event = 0x02,
+			Open = 0x04
 		}
 	}
 }

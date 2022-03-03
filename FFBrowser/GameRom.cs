@@ -109,9 +109,10 @@ namespace FFBrowser
 		internal static int PriceBank = 0x0D;
 		internal static int PriceAddress = 0xBC00;
 
-		internal static int ObjectDialogBank = 0x0E;
-		internal static int ObjectDialogAddress = 0x95D5;
-		internal static int ObjectDialogCount = 4;
+		internal static int ObjectBank = 0x0E;
+		internal static int ObjectFunctionAddress = 0x90D3;
+		internal static int ObjectParameterAddress = 0x95D5;
+		internal static int ObjectParameterCount = 4;
 
 		internal static int ObjectCount = 0xD0;
 
@@ -128,6 +129,15 @@ namespace FFBrowser
 		internal static int SpellCount = 0x40;
 		internal static int PotionCount = 0x02;
 		internal static int AbilityCount = 0x1A;
+
+		internal static int PermissionBank = 0x0E;
+
+		internal static int MagicPermissionAddress = 0xAD00;
+		internal static int PromotedMagicPermissionAddress = 0xAD30;
+		internal static int WeaponPermissionAddress = 0xBF50;
+		internal static int ArmorPermissionAddress = 0xBFA0;
+		internal static int ClassPermissionAddress = 0xBCB9;
+		internal static int ArmorTypeAddress = 0xBCD1;
 
 		internal static int EnemyBank = 0x0C;
 		internal static int EnemyAddress = 0x8520;
@@ -173,6 +183,15 @@ namespace FFBrowser
 		internal static int ShopCharacterBank = 0x09;
 		internal static int ShopCharacterAddress = 0x8000;
 		internal static int ShopCharacterCount = 128;
+
+		internal static int ShopTextBank = 0x0E;
+		internal static int ShopTextAddress = 0x8000;
+
+		internal static int ShopDataBank = 0x0E;
+		internal static int ShopDataAddress = 0x8300;
+
+		internal static int MenuTextBank = 0x0E;
+		internal static int MenuTextAddress = 0x8500;
 
 		internal static int WorldCharacterBank = 0x02;
 		internal static int WorldCharacterAddress = 0x8000;

@@ -234,9 +234,9 @@ namespace FFBrowser
 			{
 				var objectNode = Node(obj.ToString("X2"), null);
 
-				for (int dialog = 0; dialog < GameRom.ObjectDialogCount; dialog++)
+				for (int dialog = 0; dialog < GameRom.ObjectParameterCount; dialog++)
 				{
-					objectNode.Nodes.Add(Game.ObjectDialogs[obj][dialog].ToString("X2"));
+					objectNode.Nodes.Add(Game.ObjectParameters[obj][dialog].ToString("X2"));
 				}
 
 				objects.Nodes.Add(objectNode);

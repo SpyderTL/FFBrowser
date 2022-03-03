@@ -14,16 +14,23 @@ namespace FFBrowser
 			using (var stream = new MemoryStream(Rom.Data))
 			using (var reader = new RomReader(stream))
 			{
-				reader.Seek(GameRom.ObjectDialogBank, GameRom.ObjectDialogAddress);
+				reader.Seek(GameRom.ObjectBank, GameRom.ObjectParameterAddress);
 
 				for (var obj = 0; obj < GameRom.ObjectCount; obj++)
 				{
-					Game.ObjectDialogs[obj] = new int[GameRom.ObjectDialogCount];
+					Game.ObjectParameters[obj] = new int[GameRom.ObjectParameterCount];
 
-					for (var dialog = 0; dialog < GameRom.ObjectDialogCount; dialog++)
+					for (var dialog = 0; dialog < GameRom.ObjectParameterCount; dialog++)
 					{
-						Game.ObjectDialogs[obj][dialog] = reader.ReadByte();
+						Game.ObjectParameters[obj][dialog] = reader.ReadByte();
 					}
+				}
+
+				reader.Seek(GameRom.ObjectBank, GameRom.ObjectFunctionAddress);
+
+				for (var obj = 0; obj < GameRom.ObjectCount; obj++)
+				{
+					Game.ObjectFunctions[obj] = reader.ReadUInt16();
 				}
 			}
 		}
